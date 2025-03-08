@@ -4,82 +4,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="tailwind.config.js"></script>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500,600,700,800&amp;display=swap">
+
+    <title>Stud Hub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/logo.webp" />
+
+    <link rel="stylesheet" href="globals.css">
+
+    <script src="/assets/tailwind.js"></script>
+    <script src="/assets/tailwind.config.js"></script>
 </head>
 
-<body class="font-body text-text bg-background min-h-screen overflow-x-hidden overflow-y-hidden">
-    
-    <div class=" w-1000">
-        <img src="https://r2.nigga.pics/39b97c46-4a12-4130-bf92-4c3d168fa0d0.png" alt="" class="h-8 m-4">
+<body class="font-body bg-background text-text flex justify-center items-center h-screen">
+    <div class="decorations overflow-x-hidden w-screen h-screen absolute top-0 left-1/2 -translate-x-1/2 select-none">
+        <h1
+            class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
+            STUDHUB</h1>
+        <h1
+            class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%-150px)] -translate-x-1/2 left-1/2">
+            STUDHUB</h1>
     </div>
-    <div class="container mx-auto text-center">
-        <h2 class="text-2xl font-semibold">
-            Verktøy
-        </h2>
-        <h1 id="clock" onload="checktime" class="text-center text-8xl bottom-0">12:34</h1>
-        <embed src="https://rtd.banenor.no/web_client/std?station=SV&layout=landscape&content=departure&notice=no&header=no&page=1" style="width:500px; height: 300px; top: 700px; ">
 
-        <div class="flex">
-            <div class="grid grid-cols-3 gap-4">
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Flash Cards Generator
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
+    <div class="relative container mx-auto flex flex-col items-center min-h-screen">
+        <div
+            class="z-10 flex justify-between w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0">
+            <div class="flex gap-2 items-center">
+                <a href="/" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">
+                    <img alt="Nigga Pics" class="ml-1 h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
+                </a>
+            </div>
+
+            <div
+                class="flex items-center gap-8 mt-[0.5px] max-lg:gap-2 max-lg:text-sm left-1/2 absolute -translate-x-1/2 h-8">
+                <a href="/flash-cards" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Flash
+                    Cards</a>
+                <a href="/auto-noter" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Auto
+                    Noter</a>
+                <a href="/ai-detektor" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">AI
+                    Detektor</a>
+                <a href="/tenge-tavle" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Tegne
+                    Tavle</a>
+                <a href="/delt-notepad" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Delt
+                    Notepad</a>
+                <a href="/kilde-bot" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">KildeBot</a>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 xl:divide-x divide-[#FFFFFF30] w-full px-5 my-5 lg:my-auto gap-5">
+            <div class="left w-full flex flex-col gap-5">
+                <div class="flex justify-between flex-col lg:flex-row">
+                    <span>
+                        <h4 class="text-xl font-semibold text-primary">Welcome back <span class="set-username"></span>
+                        </h4>
+                        <p class="text-sm text-[#878289] flex">
+                            You are connecting from&nbsp<span
+                                class="set-connecting-info flex gap-0.5">somewhere...</span>
+                        </p>
+                    </span>
+                    <a href="#"
+                        class="start bg-[#19191990] hover:bg-[#191919A0] active:bg-[#191919D0] backdrop-blur-lg w-full sm:w-fit h-fit rounded-md text-white font-semibold py-2 px-6 mt-1">
+                        Innstillinger
+                    </a>
                 </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Auto Noter
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="/flash-cards">
+                        <div
+                            class="border border-[#00000050] rounded-lg overflow-hidden hover:scale-105 active:scale-95 active:opacity-80 duration-300">
+                            <img src="/assets/img/preview-placeholder.webp" alt="">
+                            <div class="text-left bg-[#00000090] p-3 backdrop-blur-md px-6 py-4">
+                                <p class="text-xl font-semibold">
+                                    Flash Cards Generator
+                                </p>
+                                <p class="opacity-60">
+                                    Generer flash cards fra tekst
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/flash-cards">
+                        <div
+                            class="border border-[#00000050] rounded-lg overflow-hidden hover:scale-105 active:scale-95 active:opacity-80 duration-300">
+                            <img src="/assets/img/preview-placeholder.webp" alt="">
+                            <div class="text-left bg-[#00000090] p-3 backdrop-blur-md px-6 py-4">
+                                <p class="text-xl font-semibold">
+                                    Auto Noter
+                                </p>
+                                <p class="opacity-60">
+                                    Generer flash cards fra tekst
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/flash-cards">
+                        <div
+                            class="border border-[#00000050] rounded-lg overflow-hidden hover:scale-105 active:scale-95 active:opacity-80 duration-300">
+                            <img src="/assets/img/preview-placeholder.webp" alt="">
+                            <div class="text-left bg-[#00000090] p-3 backdrop-blur-md px-6 py-4">
+                                <p class="text-xl font-semibold">
+                                    KI Detektor
+                                </p>
+                                <p class="opacity-60">
+                                    Detekterer kunstig intelligens i tekst
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/flash-cards">
+                        <div
+                            class="border border-[#00000050] rounded-lg overflow-hidden hover:scale-105 active:scale-95 active:opacity-80 duration-300">
+                            <img src="/assets/img/preview-placeholder.webp" alt="">
+                            <div class="text-left bg-[#00000090] p-3 backdrop-blur-md px-6 py-4">
+                                <p class="text-xl font-semibold">
+                                    KildeBot
+                                </p>
+                                <p class="opacity-60">
+                                    Generer kilder og referanser
+                                </p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        KI Detektor
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
+            </div>
+
+            <div class="right w-full flex flex-col gap-5 lg:pl-5">
+                <div class="flex justify-between flex-wrap">
+                    <span>
+                        <h4 class="text-xl font-semibold text-primary">Avgang</h4>
+                        <p class="text-sm text-[#878289]">
+                            Avgangstider for tog fra Sandvika
+                        </p>
+                    </span>
+
+                    <script>
+                        function checktime() {
+                            const today = new Date();
+
+                            let hours = today.getHours().toString().padStart(2, '0');
+                            let minutes = today.getMinutes().toString().padStart(2, '0');
+                            let seconds = today.getSeconds().toString().padStart(2, '0');
+
+
+                            document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds;
+                            requestAnimationFrame(checktime);
+                        }
+
+                        checktime()
+                    </script>
                 </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Tegne Tavle
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Delt Notepad
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        KildeBot
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
+
+                <div class="rounded-lg bg-[#00000090] p-[17px] backdrop-blur-md w-full">
+                    <iframe onload="this.classList.remove('animate-pulse')"
+                        class="rounded-lg overflow-hidden bg-[#00000040] backdrop-blur-xl w-full animate-pulse border border-border"
+                        height="450px"
+                        src="https://rtd.banenor.no/index.html#/?id=SV-RTD%2FDeparture&page=0&pageCount=1&hideNotice=false&noPassengerDisplay=false&header=false&wrapperName=landscape&display=rtd"
+                        frameborder="0"></iframe>
                 </div>
             </div>
         </div>
 
-        <script>
+        <div id="modal-container"
+            class="left-0 top-0 w-screen h-screen fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
+            <div id="modal"
+                class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
 
-        </script>
+            </div>
+        </div>
     </div>
 </body>
+<script>
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const button = document.querySelector('button');
+    const token = document.getElementById('token');
+
+    const credentialOption = document.getElementById('credentials-option');
+    const tokenOption = document.getElementById('token-option');
+
+    let mode = "credentials";
+
+    credentialOption.addEventListener('click', () => {
+        credentialOption.classList.add('border-b');
+        tokenOption.classList.remove('border-b');
+
+        username.classList.remove('hidden');
+        password.classList.remove('hidden');
+        token.classList.add('hidden');
+
+        mode = "credentials";
+    });
+
+    tokenOption.addEventListener('click', () => {
+        tokenOption.classList.add('border-b');
+        credentialOption.classList.remove('border-b');
+
+        username.classList.add('hidden');
+        password.classList.add('hidden');
+        token.classList.remove('hidden');
+
+        mode = "token";
+    });
+
+
+
+    button.addEventListener('click', () => {
+        if (mode == "credentials" && (!username.value || !password.value) || mode == "token" && !token.value) {
+            notify("Login Failed", "Do not leave any fields empty", 3_000, ["border-l-red-900"]);
+            return;
+        }
+
+        if (button.classList.contains('cursor-not-allowed')) return;
+
+        notify("Logging in", "Please wait...", 3_000, ["border-l-accent"]);
+
+        button.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg> please wait...`;
+
+        button.classList.remove('hover:opacity-90', 'active:opacity-80');
+        button.classList.add('cursor-not-allowed', 'opacity-80');
+
+        const payload = mode == "token" ? {
+            token: token.value
+        } : {
+            username: username.value,
+            password: password.value
+        }
+
+        fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+            .then(res => res.json().then(json => ({ res, json })))
+            .then(({ res, json }) => {
+                console.log(json);
+
+                if (json.error) {
+                    notify("Login Failed", json.error, 3_000, ["border-l-red-900"]);
+
+                    button.classList.add('hover:opacity-90', 'active:opacity-80');
+                    button.classList.remove('cursor-not-allowed', 'opacity-80');
+
+                    button.innerHTML = "login";
+                    return;
+                }
+
+                location.href = '/dashboard';
+            });
+    });
+
+    function notify(title, message, duration = 2500, classes = []) {
+        const notification = document.createElement("notification");
+        let notifications = document.getElementById("notifications");
+
+        if (!notifications) {
+            notifications = document.createElement("div");
+            notifications.id = "notifications";
+            notifications.classList.add("fixed", "bottom-3", "right-3", "m-4", "z-50");
+            document.body.appendChild(notifications);
+        }
+
+        notification.classList.add("bg-[#15151530]", "hover:bg-[#15151560]", "backdrop-blur-lg", "w-full", "sm:min-w-[275px]", "flex", "flex-col");
+        notification.classList.add("duration-500", "blur-sm", "opacity-0", "translate-x-[calc(100%+2rem)]", "scale-x-1/2", "h-0", "overflow-y-hidden");
+        notification.classList.add("rounded-md", "rounded-l-none", "border", "border-[#00000030]", "border-l-accent")
+        notification.classList.add("shadow-md", ...classes);
+
+        setTimeout(() => {
+            notification.classList.add("h-[76px]", "p-4", "py-3", "mt-2", "cursor-pointer");
+            notification.classList.remove("opacity-0", "blur-sm", "translate-x-[calc(100%+2rem)]", "scale-x-1/2", "h-0");
+        }, 25);
+
+        notification.innerHTML = `
+        <span class="flex justify-between"><h3 class="text-xl font-semibold">${title}</h3> <small>${(duration / 1000).toFixed(0)}s</small></span>
+        <p class="opacity-80">${message}</p>
+    `;
+
+        notifications.appendChild(notification);
+
+        classes.forEach(klass => notification.classList.add(klass));
+
+        const timerIncrementMS = 1000;
+
+        const callback = () => {
+            const timer = notification.querySelector("small");
+            const timeLeft = parseFloat(timer.textContent) - (timerIncrementMS / 1000);
+
+            if (notification.matches(":hover") && timeLeft > 0) return;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                notification.classList.add("translate-x-[calc(100%+2rem)]", "scale-x-1/2", "blur-sm", "opacity-0");
+                setTimeout(() => {
+                    notification.remove();
+                }, 1000);
+            } else {
+                timer.textContent = timeLeft.toFixed(Math.max(4 - timerIncrementMS.toString().split("0").length, 0)) + "s";
+            }
+        }
+
+        const timerInterval = setInterval(callback, timerIncrementMS);
+
+        notification.addEventListener("click", () => {
+            notification.querySelector("small").textContent = "0s";
+
+            callback();
+            clearInterval(timerInterval);
+        });
+    }
+</script>
+
 </html>

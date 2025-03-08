@@ -1,29 +1,96 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/favicon.png">
-    <title>Not Found</title>
+    <title>404 / NOT FOUND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sometype Mono:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="prefetch" href="/" />
 </head>
-<body id="body">
-    <style>
-        body {
-            background-color: rgb(4, 5, 8);
-            color: #aaaaaa;
-            font-family: monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-    </style>
-    <h1>404|</h1>
-    This resource could not be found
-    <br>
+<style>
+    body {
+        background-color: #0a0a0a;
+        font-family: "Sometype Mono", sans-serif;
+        color: #dcdcdc;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+
+    }
+
+    p,
+    h1,
+    h3 {
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 5em;
+
+    }
+
+    kbd {
+        background-color: #0f0f0f;
+        border-radius: 3px;
+        border: 1px solid #1b1b1b;
+        box-shadow:
+            0 1px 1px rgba(0, 0, 0, 0.2),
+            0 2px 0 0 #1b1b1bA0 inset;
+        color: #dcdcdcA0;
+        display: inline-block;
+        font-weight: 700;
+        line-height: 1;
+        padding: 2px 4px;
+        white-space: nowrap;
+    }
+
+    .sensitive {
+        filter: blur(1px);
+    }
+
+    p.sensitive {
+        filter: blur(3px);
+    }
+
+    .sensitive:hover {
+        filter: none;
+    }
+
+    footer {
+        position: absolute; bottom: 20px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <h1>404</h1>
+    <h3><code><kbd>{{path}}</kbd> NOT FOUND</code></h3>
+    <a href="/" style="color: #dcdcdc; text-decoration: none; margin-top: 30px; margin-bottom: -30px;">
+        <p style="font-size: 10px;">
+            Taking you back home in <span id="time">3s</span>, click here to go back now.
+        </p>
+    </a>
+
     <script>
-        body.append("host: " + location.hostname + " | path: " + location.pathname)
+        let time = 3;
+        setInterval(() => {
+            time--;
+            document.getElementById('time').innerText = time + 's';
+            if (time === 0) {
+                window.location.href = '/';
+            }
+        }, 1000);
     </script>
-</body>
+
+    <footer>
+        <code><kbd class="sensitive"><p class="sensitive">{{cf_ray}}</p></kbd> RAY / IP <kbd class="sensitive"><p class="sensitive">{{connecting_ip}}</p></kbd></code>
+    </footer>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91d36c850bb51bfa',t:'MTc0MTQ0ODM1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
 </html>
