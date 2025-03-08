@@ -7,16 +7,22 @@
     <title></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="tailwind.config.js"></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500,600,700,800&amp;display=swap">
 </head>
 
 <body class="font-body text-text bg-background min-h-screen overflow-x-hidden overflow-y-hidden">
-    <img src="https://r2.nigga.pics/39b97c46-4a12-4130-bf92-4c3d168fa0d0.png" alt="" class="h-8 m-4">
+    
+    <div class=" w-1000">
+        <img src="https://r2.nigga.pics/39b97c46-4a12-4130-bf92-4c3d168fa0d0.png" alt="" class="h-8 m-4">
+    </div>
     <div class="container mx-auto text-center">
         <h2 class="text-2xl font-semibold">
             Verktøy
         </h2>
+        <h1 id="clock" onload="checktime" class="text-center text-8xl bottom-0">12:34</h1>
+        <embed src="https://rtd.banenor.no/web_client/std?station=SV&layout=landscape&content=departure&notice=no&header=no&page=1" style="width:500px; height: 300px; top: 700px; ">
 
         <div class="flex">
             <div class="grid grid-cols-3 gap-4">
@@ -76,5 +82,4 @@
         </script>
     </div>
 </body>
-
 </html>
