@@ -3,7 +3,7 @@
     (c) 2025 Joseph Gerald
 */
 
-async function navigateTo(path) {
+async function navigateTo(path) {  
     window.onload = null;
     const html = await fetch(path).then(res => res.text());
     document.body.innerHTML = html;
@@ -58,8 +58,6 @@ window.onpopstate = event => {
 }
 
 function replaceATags() {
-    setUsernames();
-
     const links = Array.from(document.querySelectorAll('a'));
 
     for (const link of links) {
@@ -151,12 +149,4 @@ function notify(title, message, duration = 2500, classes = []) {
         callback();
         clearInterval(timerInterval);
     });
-}
-
-function setUsernames() {
-    const usernames = Array.from(document.querySelectorAll('.set-username'));
-
-    for (let username of usernames) {
-        username.innerHTML = pageData.username;
-    }
 }

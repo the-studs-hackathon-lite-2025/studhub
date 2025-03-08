@@ -1,2 +1,2 @@
-# express-template
-Basic express setup
+# StudHub Web
+The express server for the StudHub project.
