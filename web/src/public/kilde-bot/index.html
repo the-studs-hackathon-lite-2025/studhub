@@ -13,9 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/assets/logo.webp" />
 
-    <link rel="stylesheet" href="globals.css">
+    <link rel="stylesheet" href="/global.css">
 
-    <script defer src="script.js"></script>
+    <script defer src="/kilde-bot/script.js"></script>
     <script src="/global.js"></script>
     <script src="/assets/tailwind.js"></script>
     <script src="/assets/tailwind.config.js"></script>
@@ -44,7 +44,7 @@
             </div>
 
             <div
-                class="flex items-center gap-8 mt-[0.5px] max-lg:gap-2 max-lg:text-sm left-1/2 absolute -translate-x-1/2 h-8">
+                class="flex items-center gap-8 mt-[0.5px] max-lg:gap-2 max-lg:text-sm left-1/2 absolute -translate-x-1/2 h-8 whitespace-nowrap">
                 <a href="/flash-cards" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Flash
                     Cards</a>
                 <a href="/auto-noter" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Auto
@@ -59,8 +59,9 @@
             </div>
         </div>
 
-        <div class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[500px]">
-            <div class="left w-full flex flex-col gap-10">
+        <div id="input-container"
+            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[500px]">
+            <div class="w-full flex flex-col gap-10">
                 <div>
                     <div class="flex">
                         <h1 class="text-4xl font-semibold">
@@ -76,16 +77,152 @@
 
                 <div class="flex flex-col justify-center">
                     <div class="search flex w-fit rounded-md">
-                        <input id="url" class="p-3 rounded-l-md w-96 bg-highlight border border-border outline-none placeholder-[#FFFFFF40]" type="text"
-                            placeholder="Lenken din: f.eks https://snl.no/geit">
-                        <button id="submit" class="bg-primary text-background hover:brightness-90 active:brightness-75 font-semibold rounded-r-md p-3 border border-border">
+                        <input id="url"
+                            class="p-3 rounded-l-md w-96 bg-highlight border border-border outline-none placeholder-[#FFFFFF40]"
+                            type="text" placeholder="Lenken din: f.eks https://snl.no/geit">
+                        <button id="submit"
+                            class="bg-primary text-background hover:brightness-90 active:brightness-75 font-semibold rounded-r-md p-3 border border-border">
                             <img class="size-6" src="/assets/icons/search.svg" alt="">
                         </button>
                     </div>
-                    
-                    <button id="enter-manually" class="mt-1 text-xs hover:scale-105 active:scale-95 duration-300 opacity-65">
+
+                    <button id="enter-manually"
+                        class="mt-1 text-xs hover:scale-105 active:scale-95 duration-300 opacity-65">
                         eller sett inn manuelt
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="overview-container"
+            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[1600px] hidden">
+
+            <div>
+                <div class="flex justify-between flex-col lg:flex-row">
+                    <span>
+                        <h4 class="text-xl font-semibold text-primary">
+                            Oversikt
+                        </h4>
+                        <p class="text-sm text-[#878289] flex">
+                            Kilde Informasjon
+                        </p>
+                    </span>
+                    <a href="#" id="back-to-input"
+                        class="start bg-[#19191990] hover:bg-[#191919A0] active:bg-[#191919D0] backdrop-blur-lg w-full sm:w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
+                        Tilbake
+                    </a>
+                </div>
+
+                <div class="flex flex-col flex-1 mt-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 max-w-[900px]">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="flex flex-col gap-1 col-span-2">
+                                <label class="text-sm text-text opacity-65 ml-1.5">URL/Link</label>
+                                <input id="link" placeholder="https://example.com"
+                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none">
+                            </div>
+                            <div class="flex flex-col gap-1 col-span-2">
+                                <label class="text-sm text-text opacity-65 ml-1.5">Nettside</label>
+                                <input id="website" placeholder="Store norske leksikon"
+                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none">
+                            </div>
+                            <div class="flex flex-col gap-1 col-span-2">
+                                <label class="text-sm text-text opacity-65 ml-1.5">Tittel</label>
+                                <input id="title" placeholder="Johann Wolfgang Döbereiner"
+                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-sm text-text opacity-65 ml-1.5">Dato Publisert</label>
+                                <div class="flex">
+                                    <input type="number" placeholder="DD" min="1" max="31"
+                                        class="date-published bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-l-lg py-2 px-3 outline-none w-1/2">
+                                    <input type="number" placeholder="MM" min="1" max="12"
+                                        class="date-published bg-[#00000050] border-y border-border border-opacity-50 backdrop-blur-lg py-2 px-3 outline-none w-1/2">
+                                    <input type="number" placeholder="YY" min="0" max="2100"
+                                        class="date-published bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-r-lg py-2 px-3 outline-none w-3/5">
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <div class="flex justify-between text-sm text-text opacity-65">
+                                    <label class="ml-1.5">Dato Åpnet</label>
+                                    <p id="sett-til-idag" class="cursor-pointer">(sett til idag)</p>
+                                </div>
+                                <div class="flex">
+                                    <input type="number" placeholder="DD" min="1" max="31"
+                                        class="date-accessed bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-l-lg py-2 px-3 outline-none w-1/2">
+
+                                    <input type="number" placeholder="MM" min="1" max="12"
+                                        class="date-accessed bg-[#00000050] border-y border-border border-opacity-50 backdrop-blur-lg py-2 px-3 outline-none w-1/2">
+
+                                    <input type="number" placeholder="YY" min="0" max="2100"
+                                        class="date-accessed bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-r-lg py-2 px-3 outline-none w-3/5">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <p class="text-sm text-text opacity-65 ml-1.5">Forfattere</p>
+                            <textarea id="authors" placeholder="Forfattere, f.eks:
+Terrence Andrew Davis
+Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none flex-1 w-full"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right flex flex-col gap-5 lg:pl-5 flex-1">
+                <div
+                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 lg:p-6 outline-none flex-1 w-full relative">
+                    <div class="flex w-full justify-between">
+                        <h3 class="text-2xl font-semibold text-primary">
+                            APA7
+                        </h3>
+
+                        <div class="flex gap-2">
+                            <button id="copy-apa7"
+                                class="ml-auto bg-highlight text-text hover:brightness-90 active:brightness-75 font-semibold rounded-md py-1.5 px-2 border border-border">
+                                <img src="/assets/icons/copy.svg" alt="" class="size-5">
+                            </button>
+                            <button id="copy-apa7"
+                                class="ml-auto bg-highlight text-text hover:brightness-90 active:brightness-75 font-semibold rounded-md py-1.5 px-3 border border-border capitalize">
+                                Legg til mine kilder
+                            </button>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-6 text-xl font-semibold text-primary">
+                        For Referanser
+                    </h4>
+
+                    <div>
+                        <p id="preview-for-reference-list" class="font-serif mt-1">
+                            Author(s). (Year, date). Title of the article: Subtitle. In Editor(s) (Ed.), <i>Title of the
+                                encyclopedia</i>. Archived version of URL
+                        </p>
+                    </div>
+
+                    <h4 class="mt-6 text-xl font-semibold text-primary">
+                        For In-Text Kildring
+                    </h4>
+
+
+                    <div>
+                        <p id="preview-for-in-text" class="font-serif mt-1">
+                            (Author, year) or (“Article title,” year)
+                        </p>
+                    </div>
+
+                    <h4 class="mt-6 text-xl font-semibold text-primary">
+                        AI APA7
+                    </h4>
+
+
+                    <div>
+                        <p id="preview-for-reference-list-ai" class="font-serif mt-1">
+                            Author(s). (Year, date). Title of the article: Subtitle. In Editor(s) (Ed.), <i>Title of the
+                                encyclopedia</i>. Archived version of URL
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

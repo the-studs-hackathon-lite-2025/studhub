@@ -12,9 +12,26 @@ exports.getRobotsMinified = async (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'robot/robots.min.txt'));
 };
 
-exports.query = async (req, res) => {
-    const query_url = `https://api.jooo.tech/encode?input=${encodeURI(req.query.query_text)}`;
-    const response = await fetch(query_url);
-    const output = await response.json();
-    res.send(output.Output);
+exports.cite = async (req, res) => {
+    try {
+        const url = new URL(req.body.url);
+        
+        if (!["http:", "https:"].includes(url.protocol)) {
+            res.status(400).send({ error: 'Invalid URL' });
+            return;
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(400).send({ error: 'Invalid URL' });
+        return;
+    }
+
+    try {
+        const response = await fetch(process.env.FLASK_SERVICE_URL + '/v1/cite?' + new URLSearchParams(req.body)) 
+        const data = await response.json();
+        res.send(data);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send({ error: e.message });
+    }
 };

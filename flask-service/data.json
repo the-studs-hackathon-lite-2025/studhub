@@ -1,0 +1,416 @@
+[
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733198777,
+        "name": "Zynmas",
+        "symbol": "Zynmas",
+        "address": "EYjMhj6y9RYET4CNtzjd8KKhRsUMNDVbc2WJAWsiJ6o6",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000540687357842,
+        "volume24": 92,
+        "liquidity": 194,
+        "marketCap": 5407,
+        "change24": -0.033448301023279566
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733165173,
+        "name": "ZYNMAS",
+        "symbol": "ZYN",
+        "address": "2xBHPHpkaPvSJaPTA2gpUwoPZsEVuvULxf3ZZEbrpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000623170519016,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6232,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZYNMASONSOLANA",
+            "website": "https://x.com/ZYNMASONSOLANA",
+            "telegram": "https://x.com/ZYNMASONSOLANA"
+        },
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733176121,
+        "name": "ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "6KPqhk2ngyRuxwDW78bVqjsndak4EVLsMTfw4YEfpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000633915070151,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6339,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZYNMASONSOLANA",
+            "website": "https://zynmas.fun/",
+            "telegram": "https://t.me/zynmas"
+        },
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733176068,
+        "name": "ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "AQxrJiKNeV9PNtrbF2cHsZVcCBCjfwKt1cXBPmCmpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000631557461816,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6316,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733429813,
+        "name": "ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "7KSYxrHcwQVw1n2X81tA2EPKe8f7v5m8kkZMWpZnpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000670615358347,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6706,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": {},
+            "website": {},
+            "telegram": {}
+        },
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733665612,
+        "name": "Zynmas",
+        "symbol": "Zynmas",
+        "address": "5UCvXC3pVa7sqwGJbEaJGEW1LGjUA7tMozbWC1Rqpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000656435024604,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6564,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZynmasToken",
+            "website": "https://www.zynmas.com/",
+            "telegram": "https://t.me/zynmastoken"
+        },
+        "origin": "MOONSHOT",
+        "protocol": "Moonshot",
+        "creationBlockTimestamp": 1733634993,
+        "name": "Zynmas",
+        "symbol": "ZYNMAS",
+        "address": "43jCeaavDgm4UAtPXpSZD3tuwDRsFMB8WXtC8X4Mmoon",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000656607531398,
+        "volume24": 0,
+        "liquidity": 4,
+        "marketCap": 6566,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "telegram": "https://t.me/+A3eXZUX5K9ZjNTQx"
+        },
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733371040,
+        "name": "MERRY ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "2HshhEXohx4u6kUeiao6MM5r1UhBZHLrDrGGSFZbpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000613060333228,
+        "volume24": 0,
+        "liquidity": 10,
+        "marketCap": 6131,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1732683040,
+        "name": "zynmas",
+        "symbol": "ZYNMAS",
+        "address": "85SMyLnqStfdEiEC2Q6H3n1McFh46rs7hWVmf4Vupump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000619415532546,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6194,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1732791876,
+        "name": "Zynmas",
+        "symbol": "Zynmas",
+        "address": "3NmLkoXcZRQK1mGffrWAeNb7iekVQrTRiGJMxe3apump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000638889763883,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6389,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZynmasToken",
+            "website": "https://www.zynmas.com/",
+            "telegram": "https://t.me/zynmastoken"
+        },
+        "origin": null,
+        "protocol": "Raydium CPMM",
+        "creationBlockTimestamp": 1733633684,
+        "name": "BTC Zynmas",
+        "symbol": "ZynmasX",
+        "address": "fHGC96umSndcVZqN77p4TXM49sSCp5GdLpHKuyw25sx",
+        "chainId": 1399811149,
+        "priceUSD": 0.33406324496,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 324028272,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZYNMASONSOLANA",
+            "website": "https://zynmas.fun/",
+            "telegram": "https://t.me/zynmas"
+        },
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733176033,
+        "name": "ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "FEDuosQu7Y4qEfk2xDV3iJ8eT6ZQ9vLMhGDuLjD6pump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000566906737135,
+        "volume24": 0,
+        "liquidity": 14,
+        "marketCap": 5669,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZynmasToken",
+            "website": "https://www.zynmas.com/",
+            "telegram": "https://t.me/zynmastoken"
+        },
+        "origin": null,
+        "protocol": "Raydium CPMM",
+        "creationBlockTimestamp": 1733632896,
+        "name": "Zynmas Celebration",
+        "symbol": "Zynmas",
+        "address": "FBk5MJbBvWPkfYHEYAU874ozY9N2C1EiSVEURc1y8sMp",
+        "chainId": 1399811149,
+        "priceUSD": 0.0000020110428712,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 1966,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733494672,
+        "name": "FATHER ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "Hz3y1bK6me8EyeFF6jcGRRfg64w9B8UhDmAMBSjtpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000521346666035,
+        "volume24": 0,
+        "liquidity": 9,
+        "marketCap": 5213,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1732931166,
+        "name": "Zynmas",
+        "symbol": "Zynmas",
+        "address": "2193LEExFkgDbAJumnGAvbDQMzbBfjjeShcvtsunpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000673625834689,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6736,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1732977013,
+        "name": "ZYNMAS",
+        "symbol": "ZYNMAS",
+        "address": "62SsKUgcHaMrqL2fngWDAWYfUPwvzMsQxUrnTCcyopxt",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000627295195525,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6273,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1732887967,
+        "name": "Zynmas",
+        "symbol": "ZYNMAS",
+        "address": "BYyViwu2p92Z49p7u5Guz4tFUPHs7EBC9FMb67Pbpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000672817981707,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6728,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {
+            "twitter": "https://x.com/ZynmasToken",
+            "website": "https://www.zynmas.com/",
+            "telegram": "https://x.com/ZynmasToken"
+        },
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733684120,
+        "name": "ZYNMAS",
+        "symbol": "ZYN",
+        "address": "6oojXz5YjKGwpZFLziizNQhB81ZGhSYwPPfDHN76pump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000667547111179,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6675,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733682087,
+        "name": "Chill zynmas",
+        "symbol": "ChillZyn ",
+        "address": "GQvVLMkHCaSR3a77EysoFnohL43mwVhbCnGUL1vJpump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000624567018062,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 6246,
+        "change24": 0
+    },
+    {
+        "chainIds": [
+            1399811149
+        ],
+        "riskstatus": "SAFE",
+        "links": {},
+        "origin": "PUMP",
+        "protocol": "PUMP",
+        "creationBlockTimestamp": 1733834991,
+        "name": "Zyn mas",
+        "symbol": "Zynmas",
+        "address": "4dxiiUp69quwMsiMycp79R8HECNAeysWVtBgGELipump",
+        "chainId": 1399811149,
+        "priceUSD": 0.00000581464598851,
+        "volume24": 0,
+        "liquidity": 0,
+        "marketCap": 5815,
+        "change24": 0
+    }
+]

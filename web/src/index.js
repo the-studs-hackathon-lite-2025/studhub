@@ -19,6 +19,6 @@ wss.on('connection', handleConnection);
 
 server.listen(port, () => {
     console.log(`
-    >    Express chat running on port ${port}
+    >    StudHub Web Service @ :${port}
     `);
 });

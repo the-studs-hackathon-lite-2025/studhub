@@ -3,6 +3,18 @@
     (c) 2025 Joseph Gerald
 */
 
+async function queryAPI(endpoint, data) {
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    return await response.json();
+}
+
 async function navigateTo(path) {  
     window.onload = null;
     const html = await fetch(path).then(res => res.text());
@@ -33,6 +45,7 @@ async function navigateTo(path) {
                     try {
                         eval(code);
                     } catch (e) {
+                        console.log("Failed to eval script", src);
                         console.error(e);
                     }
                 }, 25);
@@ -61,7 +74,7 @@ function replaceATags() {
     const links = Array.from(document.querySelectorAll('a'));
 
     for (const link of links) {
-        console.log(link.href);
+        console.log("Hooked", link.href);
         if (link.href.endsWith("#")) continue;
 
         link.addEventListener('click', e => {
@@ -75,6 +88,8 @@ function replaceATags() {
     const closeHamburger = document.getElementById('close-hamburger');
     const navMenu = document.getElementById('header');
     
+    return;
+
     hamburger.addEventListener('click', () => {
         navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
     
@@ -105,7 +120,7 @@ function notify(title, message, duration = 2500, classes = []) {
 
     notification.classList.add("bg-[#15151530]", "hover:bg-[#15151560]", "backdrop-blur-lg", "w-full", "sm:min-w-[275px]", "flex", "flex-col");
     notification.classList.add("duration-500", "blur-sm", "opacity-0", "translate-x-[calc(100%+2rem)]", "scale-x-1/2", "h-0", "overflow-y-hidden");
-    notification.classList.add("rounded-md", "rounded-l-none", "border", "border-[#00000030]", "border-l-accent")
+    notification.classList.add("rounded-md", "border", "border-[#00000030]", "border-l-accent")
     notification.classList.add("shadow-md", ...classes);
 
     setTimeout(() => {
