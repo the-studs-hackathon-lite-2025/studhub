@@ -242,7 +242,7 @@ async function submitWebsite() {
     inputContainer.animate([
         { opacity: 1, transform: 'scale(1)' },
         { opacity: 0.75, transform: 'scale(0.975)' },
-        { opacity: 0, transform: 'scale(1.8)' }
+        { opacity: 0, transform: 'scale(1.5)' }
     ], {
         duration: 190,
         iterations: 1
