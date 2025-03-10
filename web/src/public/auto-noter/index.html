@@ -76,8 +76,8 @@
                     </p>
                 </div>
 
-                <div class="flex flex-col gap-4">
-                    <div class="flex flex-col backdrop-blur-md p-4 rounded-lg bg-[#00000050] w-full">
+                <div class="flex flex-col">
+                    <div class="flex flex-col backdrop-blur-md p-4 rounded-t-lg bg-[#00000050] w-full">
                         <div class="flex justify-between items-center">
                             <span>
                                 <h4 class="text-lg font-semibold text-primary">Mikrofon</h4>
@@ -86,13 +86,14 @@
                                 </p>
                             </span>
                         </div>
-
                     </div>
 
-                    <div class="flex flex-col backdrop-blur-md p-4 rounded-lg bg-[#00000050]">
-                        <div class="relative w-full max-h-64">
+                    <hr class="border-[#FFFFFF20] border-opacity-50 border-dotted">
+
+                    <div class="flex gap-2 backdrop-blur-md p-4 rounded-b-lg bg-[#00000050]">
+                        <div class="relative w-full max-h-[262px]">
                             <canvas id="canvas"
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md mt-1 w-full h-full"></canvas>
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md w-full h-full"></canvas>
                             <p class="absolute top-4 left-3 font-sometype-mono text-xs text-[#FFFFFF30]">
                                 NOT RECORDING
                             </p>
@@ -109,21 +110,21 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-2 mt-2">
+                        <div class="flex flex-col gap-4 bg-[#00000050] border border-border border-opacity-50 rounded-md p-2">
                             <button
-                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                class="bg-highlight flex-1 hover:brightness-90 active:brightness-75 bg-opacity-70 backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-4 border border-border border-opacity-50">
                                 Start
                             </button>
                             <button disabled
-                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                class="bg-highlight flex-1 hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-4 border border-border border-opacity-50">
                                 Pause
                             </button>
                             <button disabled
-                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                class="bg-highlight flex-1 hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-4 border border-border border-opacity-50">
                                 Slett
                             </button>
                             <button disabled
-                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                class="bg-highlight flex-1 hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-4 border border-border border-opacity-50">
                                 Upload
                             </button>
                         </div>
