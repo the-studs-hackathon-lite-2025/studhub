@@ -3,6 +3,28 @@
     (c) 2025 Joseph Gerald
 */
 
+setTimeout(hookMobile, 100);
+
+function hookMobile() {
+    const hamburger = document.getElementById('hamburger');
+    const closeHamburger = document.getElementById('close-hamburger');
+    const navMenu = document.getElementById('header');
+    
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
+    
+        navMenu.classList.toggle('mobile-hidden');
+        closeHamburger.classList.toggle('hidden');
+    });
+    
+    closeHamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
+    
+        navMenu.classList.toggle('mobile-hidden');
+        closeHamburger.classList.toggle('hidden');
+    });
+}
+
 async function queryAPI(endpoint, data) {
     const response = await fetch(endpoint, {
         method: 'POST',
@@ -17,14 +39,20 @@ async function queryAPI(endpoint, data) {
 
 async function navigateTo(path) {  
     window.onload = null;
-    const html = await fetch(path).then(res => res.text());
+    const res = await fetch(path)
+    const html = await res.text();
+
+    if (res.status !== 200) {
+        console.error("[STUD ROUTER] Non 2xx status code; Skipping SPA navigation.", res.status);
+        location.href = path;
+        return;
+    }
+
     document.body.innerHTML = html;
-    const newDom = document.createElement('html');
-    newDom.innerHTML = html;
 
     history.pushState({}, '', path);
 
-    const scripts = Array.from(newDom.querySelectorAll('script'));
+    const scripts = Array.from(document.querySelectorAll('script'));
     replaceATags();
 
     for (const script of scripts) {
@@ -84,25 +112,7 @@ function replaceATags() {
         });
     }
 
-    const hamburger = document.getElementById('hamburger');
-    const closeHamburger = document.getElementById('close-hamburger');
-    const navMenu = document.getElementById('header');
-    
-    return;
-
-    hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
-    
-        navMenu.classList.toggle('mobile-hidden');
-        closeHamburger.classList.toggle('hidden');
-    });
-    
-    closeHamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
-    
-        navMenu.classList.toggle('mobile-hidden');
-        closeHamburger.classList.toggle('hidden');
-    });
+    hookMobile();
 }
 
 window.onload = replaceATags;

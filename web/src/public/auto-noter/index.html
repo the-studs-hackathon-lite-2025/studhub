@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stud Hub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css?family=Sometype%20Mono:wght@400;500,600,700,800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/logo.webp" />
+
+    <link rel="stylesheet" href="/global.css">
+
+    <script defer src="/auto-noter/script.js"></script>
+    <script src="/global.js"></script>
+    <script src="/assets/tailwind.js"></script>
+    <script src="/assets/tailwind.config.js"></script>
+</head>
+
+<body class="font-body bg-background text-text flex">
+    <img id="hamburger" src="/assets/icons/hamburger.svg" class="fixed top-5 right-5 w-8 z-10 lg:hidden" alt="">
+    <img id="close-hamburger" src="/assets/icons/cross.svg" class="fixed top-5 right-5 w-8 z-10 z-50 hidden" alt="">
+
+    <div class="decorations overflow-x-hidden w-screen h-screen absolute top-0 left-1/2 -translate-x-1/2 select-none">
+        <h1
+            class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
+            STUDHUB</h1>
+        <h1
+            class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%-150px)] -translate-x-1/2 left-1/2">
+            STUDHUB</h1>
+    </div>
+
+    <div class="relative container mx-auto flex flex-col items-center min-h-screen">
+        <div id="header"
+            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0 mobile-hidden min-h-screen lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
+            <div class="flex gap-2 items-center">
+                <a href="/" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">
+                    <img alt="Logo" class="ml-1 h-12 lg:h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
+                </a>
+            </div>
+
+            <div
+                class="flex flex-wrap lg:flex-nowrap flex-row items-center lg:gap-8 mt-10 lg:mt-[0.5px] max-lg:gap-4 max-lg:text-sm left-1/2 lg:absolute lg:-translate-x-1/2 translate-y-[1px] h-8 whitespace-nowrap justify-center">
+                <a href="/flash-cards" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Flash
+                    Cards</a>
+                <a href="/auto-noter" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Auto
+                    Noter</a>
+                <a href="/ai-detektor" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">AI
+                    Detektor</a>
+                <a href="/tegne-tavle" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Tegne
+                    Tavle</a>
+                <a href="/delt-notepad" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Delt
+                    Notepad</a>
+                <a href="/kilde-bot" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">KildeBot</a>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 xl:divide-x divide-[#FFFFFF30] w-full px-5 my-5 lg:my-auto gap-5">
+            <div class="left w-full flex flex-col gap-5">
+                <div>
+                    <div class="flex">
+                        <h1 class="text-4xl font-semibold">
+                            Auto Noter
+                        </h1>
+                        <small class="text-xs text-primary">v0.0.0 (pre-alpha)</small>
+                        <br>
+                    </div>
+                    <p class="text-sm opacity-65">
+                        Automatisk traskribering og oppsummering
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col backdrop-blur-md p-4 rounded-lg bg-[#00000050] w-full">
+                        <div class="flex justify-between items-center">
+                            <span>
+                                <h4 class="text-lg font-semibold text-primary">Mikrofon</h4>
+                                <p class="text-sm text-[#878289]">
+                                    Ta opp lyd med mikrofonen din
+                                </p>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-col backdrop-blur-md p-4 rounded-lg bg-[#00000050]">
+                        <div class="relative w-full max-h-64">
+                            <canvas id="canvas"
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md mt-1 w-full h-full"></canvas>
+                            <p class="absolute top-4 left-3 font-sometype-mono text-xs text-[#FFFFFF30]">
+                                NOT RECORDING
+                            </p>
+                            <p class="text-3xl font-sometype-mono absolute top-4 right-3 text-[#FFFFFF30]">
+                                00:00
+                            </p>
+                            <div class="text-md font-sometype-mono leading-4 tracking-wider left-4 bottom-4 absolute">
+                                <p class="opacity-30">
+                                    OPPTAK
+                                </p>
+                                <p class="opacity-30">
+                                    KONTROL
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 mt-2">
+                            <button
+                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                Start
+                            </button>
+                            <button disabled
+                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                Pause
+                            </button>
+                            <button disabled
+                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                Slett
+                            </button>
+                            <button disabled
+                                class="bg-highlight hover:brightness-90 active:brightness-75 bg-opacity-70 disabled:brightness-50 disabled:cursor-not-allowed backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border border-opacity-50">
+                                Upload
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right w-full flex flex-col gap-5 lg:pl-5">
+                <div class="flex justify-between flex-wrap">
+                    <span>
+                        <h4 class="text-xl font-semibold text-primary">Upload</h4>
+                        <p class="text-sm text-[#878289]">
+                            Last opp en lokal lydfil
+                        </p>
+                    </span>
+                </div>
+
+                <div id="drop-zone">
+                    <input type="file" id="file-input" class="hidden">
+                    <div class="bg-[#00000050] p-3 rounded-lg backdrop-blur-md">
+                        <div id="drop-zone-content" class="border-2 border-dashed border-[#FFFFFF30] rounded-md
+                        flex flex-col justify-center items-center p-4 py-8">
+                            <svg fill="#e9e7f4" width="200px" height="200px" viewBox="0 0 32 32" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <title>upload-cloud</title>
+                                <path
+                                    d="M0 16v-1.984q0-3.328 2.336-5.664t5.664-2.336q1.024 0 2.176 0.352 0.576-2.752 2.784-4.544t5.056-1.824q3.296 0 5.632 2.368t2.368 5.632q0 0.896-0.32 2.048 0.224-0.032 0.32-0.032 2.464 0 4.224 1.76t1.76 4.224v2.016q0 2.496-1.76 4.224t-4.224 1.76h-0.384q0.288-0.8 0.352-1.44 0.096-1.312-0.32-2.56t-1.408-2.208l-4-4q-1.76-1.792-4.256-1.792t-4.224 1.76l-4 4q-0.96 0.96-1.408 2.24t-0.32 2.592q0.032 0.576 0.256 1.248-2.72-0.608-4.512-2.784t-1.792-5.056zM10.016 22.208q-0.096-0.96 0.576-1.6l4-4q0.608-0.608 1.408-0.608 0.832 0 1.408 0.608l4 4q0.672 0.64 0.608 1.6-0.032 0.288-0.16 0.576-0.224 0.544-0.736 0.896t-1.12 0.32h-1.984v6.016q0 0.832-0.608 1.408t-1.408 0.576-1.408-0.576-0.576-1.408v-6.016h-2.016q-0.608 0-1.088-0.32t-0.768-0.896q-0.096-0.288-0.128-0.576z">
+                                </path>
+                            </svg>
+
+                            <h3 class="text-3xl font-semibold text-center max-w-[300px] mt-6">
+                                Dra og slipp eller <a href="#"
+                                    class="underline decoration-accent text-primary">upload</a>
+                                lydfilen din
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-container"
+        class="left-0 top-0 w-screen h-screen fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
+        <div id="modal"
+            class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
+
+        </div>
+    </div>
+</body>
+
+</html>

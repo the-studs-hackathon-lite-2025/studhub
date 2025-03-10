@@ -255,7 +255,7 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 let aiTimeout;
 let oldEvtSource;
 
-async function generatePreviews(aiDelay = 500) {
+async function generatePreviews(event, aiDelay = 500) {
     const data = {
         title: title.value,
         link: link.value,
@@ -321,8 +321,21 @@ async function generatePreviews(aiDelay = 500) {
 
 
         let accessed = "";
+        
+        if (!isNaN(dateAccessed[0])) {
+            accessed += dateAccessed[0];
 
-        accessed = months[dateAccessed[0] - 1] + ` ${dateAccessed[1]}, ${dateAccessed[2]}`;
+            if (!isNaN(dateAccessed[1])) {
+                console.log(dateAccessed[1])
+                accessed += `, ${months[dateAccessed[1] - 1]}`;
+
+                if (!isNaN(dateAccessed[2])) {
+                    accessed += ` ${dateAccessed[2]}`;
+                }
+            }
+        } else {
+            accessed = `n.d.`;
+        }
 
         if (isNaN(dateAccessed[0])) {
             forBibliography += ` ${data.link}`;
@@ -379,6 +392,7 @@ async function generatePreviews(aiDelay = 500) {
     previewAiReference.onclick = genWithAi;
 
     if (aiTimeout) clearTimeout(aiTimeout);
+    console.log("AI delay", aiDelay);
     aiTimeout = setTimeout(genWithAi, aiDelay);
 }
 

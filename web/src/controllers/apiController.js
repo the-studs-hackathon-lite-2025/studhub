@@ -1,4 +1,5 @@
 const path = require('path');
+const FLASK_SERVICE_URL = process.env.FLASK_SERVICE_URL || 'http://localhost:8080';
 
 exports.ping = (req, res) => {
     res.send('pong');
@@ -27,7 +28,7 @@ exports.cite = async (req, res) => {
     }
 
     try {
-        const response = await fetch(process.env.FLASK_SERVICE_URL + '/v1/cite?' + new URLSearchParams(req.body)) 
+        const response = await fetch(FLASK_SERVICE_URL + '/v1/cite?' + new URLSearchParams(req.body)) 
         const data = await response.json();
         res.send(data);
     } catch (e) {

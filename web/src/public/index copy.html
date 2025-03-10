@@ -1,85 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="tailwind.config.js"></script>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500,600,700,800&amp;display=swap">
+    <title>Audio Recorder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        button.stop {
+            background-color: #f44336;
+        }
+
+        #audioPreview {
+            margin-top: 20px;
+            width: 300px;
+        }
+    </style>
 </head>
-
-<body class="font-body text-text bg-background min-h-screen overflow-x-hidden overflow-y-hidden">
-    
-    <div class=" w-1000">
-        <img src="https://r2.nigga.pics/39b97c46-4a12-4130-bf92-4c3d168fa0d0.png" alt="" class="h-8 m-4">
+<body>
+    <h1>Audio Recorder</h1>
+    <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn" disabled>Pause</button>
+        <button id="stopBtn" disabled>Stop</button>
     </div>
-    <div class="container mx-auto text-center">
-        <h2 class="text-2xl font-semibold">
-            Verktøy
-        </h2>
-        <h1 id="clock" onload="checktime" class="text-center text-8xl bottom-0">12:34</h1>
-        <embed src="https://rtd.banenor.no/web_client/std?station=SV&layout=landscape&content=departure&notice=no&header=no&page=1" style="width:500px; height: 300px; top: 700px; ">
+    <audio id="audioPreview" controls></audio>
 
-        <div class="flex">
-            <div class="grid grid-cols-3 gap-4">
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Flash Cards Generator
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Auto Noter
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        KI Detektor
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Tegne Tavle
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        Delt Notepad
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-                <div class="text-left bg-highlight border border-border px-6 py-4 rounded-md">
-                    <p class="text-xl font-semibold">
-                        KildeBot
-                    </p>
-                    <p class="opacity-60">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </p>
-                </div>
-            </div>
-        </div>
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let isPaused = false;
 
-        <script>
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const audioPreview = document.getElementById('audioPreview');
 
-        </script>
-    </div>
+        // Request microphone permission and start recording
+        startBtn.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    audioPreview.src = audioUrl;
+                    audioChunks = [];
+                };
+
+                audioChunks = [];
+                mediaRecorder.start();
+                
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                stopBtn.disabled = false;
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                alert('Could not access microphone. Please check permissions.');
+            }
+        });
+
+        // Pause/Resume recording
+        pauseBtn.addEventListener('click', () => {
+            if (isPaused) {
+                mediaRecorder.resume();
+                pauseBtn.textContent = 'Pause';
+            } else {
+                mediaRecorder.pause();
+                pauseBtn.textContent = 'Resume';
+            }
+            isPaused = !isPaused;
+        });
+
+        // Stop recording
+        stopBtn.addEventListener('click', () => {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+            stopBtn.disabled = true;
+            pauseBtn.textContent = 'Pause';
+            isPaused = false;
+        });
+    </script>
 </body>
 </html>

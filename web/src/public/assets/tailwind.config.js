@@ -3,7 +3,8 @@ tailwind.config = {
     theme: {
         extend: {
             fontFamily: {
-                'body': ['"Onest"']
+                'body': ['"Onest"'],
+                'sometype-mono': ['"Sometype Mono"'],
             },
             colors: {
                 'text': '#dcdcdc',

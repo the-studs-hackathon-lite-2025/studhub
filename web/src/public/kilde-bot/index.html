@@ -35,23 +35,23 @@
     </div>
 
     <div class="relative container mx-auto flex flex-col items-center min-h-screen">
-        <div
-            class="z-10 flex justify-between w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0">
+        <div id="header"
+            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0 mobile-hidden min-h-screen lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
             <div class="flex gap-2 items-center">
                 <a href="/" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">
-                    <img alt="Logo" class="ml-1 h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
+                    <img alt="Logo" class="ml-1 h-12 lg:h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
                 </a>
             </div>
 
             <div
-                class="flex items-center gap-8 mt-[0.5px] max-lg:gap-2 max-lg:text-sm left-1/2 absolute -translate-x-1/2 h-8 whitespace-nowrap">
+                class="flex flex-wrap lg:flex-nowrap flex-row items-center lg:gap-8 mt-10 lg:mt-[0.5px] max-lg:gap-4 max-lg:text-sm left-1/2 lg:absolute lg:-translate-x-1/2 translate-y-[1px] h-8 whitespace-nowrap justify-center">
                 <a href="/flash-cards" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Flash
                     Cards</a>
                 <a href="/auto-noter" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Auto
                     Noter</a>
                 <a href="/ai-detektor" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">AI
                     Detektor</a>
-                <a href="/tenge-tavle" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Tegne
+                <a href="/tegne-tavle" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Tegne
                     Tavle</a>
                 <a href="/delt-notepad" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Delt
                     Notepad</a>
@@ -79,7 +79,7 @@
                     <div class="search flex w-fit rounded-md">
                         <input id="url"
                             class="p-3 rounded-l-md w-96 bg-highlight border border-border outline-none placeholder-[#FFFFFF40]"
-                            type="text" placeholder="Lenken din: f.eks https://snl.no/geit">
+                            type="text" placeholder="Lenken din: f.eks https://snl.no/geit" autocomplete="off">
                         <button id="submit"
                             class="bg-primary text-background hover:brightness-90 active:brightness-75 font-semibold rounded-r-md p-3 border border-border">
                             <img class="size-6" src="/assets/icons/search.svg" alt="">
@@ -108,7 +108,7 @@
                         </p>
                     </span>
                     <a href="#" id="back-to-input"
-                        class="start bg-[#19191990] hover:bg-[#191919A0] active:bg-[#191919D0] backdrop-blur-lg w-full sm:w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
+                        class="start bg-[#19191990] hover:brightness-90 active:brightness-75 backdrop-blur-lg w-full sm:w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
                         Tilbake
                     </a>
                 </div>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stud Hub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/logo.webp" />
+
+    <link rel="stylesheet" href="global.css">
+
+    <script src="/global.js"></script>
+    <script src="/assets/tailwind.js"></script>
+    <script src="/assets/tailwind.config.js"></script>
+</head>
+
+<body class="font-body bg-background text-text flex justify-center items-center h-screen">
+    <div class="decorations overflow-x-hidden w-screen h-screen absolute top-0 left-1/2 -translate-x-1/2 select-none">
+        <h1
+            class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
+            STUDHUB</h1>
+        <h1
+            class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%-150px)] -translate-x-1/2 left-1/2">
+            STUDHUB</h1>
+    </div>
+
+    <div class="relative container mx-auto flex flex-col items-center min-h-screen">
+        <div id="header"
+            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0 mobile-hidden min-h-screen lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
+            <div class="flex gap-2 items-center">
+                <a href="/" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">
+                    <img alt="Logo" class="ml-1 h-12 lg:h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
+                </a>
+            </div>
+
+            <div
+                class="flex flex-wrap lg:flex-nowrap flex-row items-center lg:gap-8 mt-10 lg:mt-[0.5px] max-lg:gap-4 max-lg:text-sm left-1/2 lg:absolute lg:-translate-x-1/2 translate-y-[1px] h-8 whitespace-nowrap justify-center">
+                <a href="/flash-cards" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Flash
+                    Cards</a>
+                <a href="/auto-noter" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Auto
+                    Noter</a>
+                <a href="/ai-detektor" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">AI
+                    Detektor</a>
+                <a href="/tegne-tavle" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Tegne
+                    Tavle</a>
+                <a href="/delt-notepad" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">Delt
+                    Notepad</a>
+                <a href="/kilde-bot" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">KildeBot</a>
+            </div>
+        </div>
+
+        <div class="px-5 my-5 lg:my-auto gap-5">
+            <div class="mt-4 w-full h-full flex-1 bg-[#00000090] backdrop-blur-md rounded-md p-48 px-96 border border-border animate-bounce">
+                <div>
+                    <div class="flex">
+                        <h1 class="text-4xl font-semibold">
+                            Tegne Tavle
+                        </h1>
+                        <small class="text-xs text-primary">v0.0.0 (pre-alpha)</small>
+                        <br>
+                    </div>
+                    <p class="text-sm opacity-65">
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-container"
+            class="left-0 top-0 w-screen h-screen fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
+            <div id="modal"
+                class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
