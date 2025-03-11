@@ -10,19 +10,57 @@ function hookMobile() {
     const closeHamburger = document.getElementById('close-hamburger');
     const navMenu = document.getElementById('header');
     
-    hamburger.addEventListener('click', () => {
+    hamburger.onclick = () => {
+        navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
+        
+        navMenu.classList.toggle('mobile-hidden');
+
+        navMenu.animate([
+            { opacity: 0, transform: 'scale(1.02)' },
+            { opacity: 1, transform: 'scale(1)' }
+        ], {
+            duration: 250,
+            easing: 'ease-in-out'
+        });
+
+
+        hamburger.animate([
+            { opacity: 1, transform: 'scale(1)' },
+            { opacity: 0, transform: 'scale(1.02)' }
+        ], {
+            duration: 250,
+            easing: 'ease-in-out'
+        }).onfinish = () => {
+            hamburger.classList.toggle('hidden');
+        }
+
+        closeHamburger.animate([
+            { opacity: 0, transform: 'scale(1.02)' },
+            { opacity: 1, transform: 'scale(1)' }
+        ], {
+            duration: 250,
+            easing: 'ease-in-out'
+        }).onfinish = () => {
+            closeHamburger.classList.toggle('hidden');
+        }
+    };
+    
+    closeHamburger.onclick = () => {
         navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
     
-        navMenu.classList.toggle('mobile-hidden');
         closeHamburger.classList.toggle('hidden');
-    });
-    
-    closeHamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('backdrop-blur-xl', 'backdrop-brightness-50', 'backdrop-contrast-50');
-    
-        navMenu.classList.toggle('mobile-hidden');
-        closeHamburger.classList.toggle('hidden');
-    });
+        hamburger.classList.toggle('hidden');
+
+        navMenu.animate([
+            { opacity: 1, transform: 'scale(1)' },
+            { opacity: 0, transform: 'scale(1.02)' },
+        ], {
+            duration: 250,
+            easing: 'ease-in-out'
+        }).onfinish = () => {
+            navMenu.classList.toggle('mobile-hidden');
+        };
+    };
 }
 
 async function queryAPI(endpoint, data) {

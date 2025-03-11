@@ -21,11 +21,13 @@
     <script src="/assets/tailwind.config.js"></script>
 </head>
 
-<body class="font-body bg-background text-text flex">
-    <img id="hamburger" src="/assets/icons/hamburger.svg" class="fixed top-5 right-5 w-8 z-10 lg:hidden" alt="">
-    <img id="close-hamburger" src="/assets/icons/cross.svg" class="fixed top-5 right-5 w-8 z-10 z-50 hidden" alt="">
+<body class="font-body bg-background text-text flex overflow-x-hidden">
+    <div class="fixed left-[calc(100vw-20px)] -translate-x-full top-5 w-8 lg:hidden z-50">
+        <img id="hamburger" src="/assets/icons/hamburger.svg" class="w-8 absolute left-0 top-0 lg:hidden" alt="">
+        <img id="close-hamburger" src="/assets/icons/cross.svg" class="w-8 absolute left-0 top-0 hidden" alt="">
+    </div>
 
-    <div class="decorations overflow-x-hidden w-screen h-screen absolute top-0 left-1/2 -translate-x-1/2 select-none">
+    <div class="decorations overflow-x-hidden overflow-y-hidden w-screen h-dvh fixed top-0 left-1/2 -translate-x-1/2 select-none">
         <h1
             class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
             STUDHUB</h1>
@@ -34,9 +36,9 @@
             STUDHUB</h1>
     </div>
 
-    <div class="relative container mx-auto flex flex-col items-center min-h-screen">
+    <div class="container mx-auto flex flex-col items-center min-h-dvh pt-16 pb-6 lg:py-0">
         <div id="header"
-            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0 mobile-hidden min-h-screen lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
+            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed top-0 max-lg:border-t-0 mobile-hidden min-h-dvh lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
             <div class="flex gap-2 items-center">
                 <a href="/" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">
                     <img alt="Logo" class="ml-1 h-12 lg:h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
@@ -75,10 +77,10 @@
                     </p>
                 </div>
 
-                <div class="flex flex-col justify-center">
-                    <div class="search flex w-fit rounded-md">
+                <div class="flex flex-col justify-center w-full">
+                    <div class="search flex rounded-md w-full">
                         <input id="url"
-                            class="p-3 rounded-l-md w-96 bg-highlight border border-border outline-none placeholder-[#FFFFFF40]"
+                            class="p-3 rounded-l-md w-full bg-highlight bg-opacity-65 backdrop-blur-sm border border-border outline-none placeholder-[#FFFFFF40]"
                             type="text" placeholder="Lenken din: f.eks https://snl.no/geit" autocomplete="off">
                         <button id="submit"
                             class="bg-primary text-background hover:brightness-90 active:brightness-75 font-semibold rounded-r-md p-3 border border-border">
@@ -95,10 +97,10 @@
         </div>
 
         <div id="overview-container"
-            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[1600px] hidden">
+            class="flex flex-wrap xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[1600px] hidden">
 
             <div>
-                <div class="flex justify-between flex-col lg:flex-row">
+                <div class="flex justify-between flex-row">
                     <span>
                         <h4 class="text-xl font-semibold text-primary">
                             Oversikt
@@ -108,14 +110,14 @@
                         </p>
                     </span>
                     <a href="#" id="back-to-input"
-                        class="start bg-[#19191990] hover:brightness-90 active:brightness-75 backdrop-blur-lg w-full sm:w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
+                        class="start bg-[#19191990] hover:brightness-90 active:brightness-75 backdrop-blur-lg w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
                         Tilbake
                     </a>
                 </div>
 
                 <div class="flex flex-col flex-1 mt-8">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 max-w-[900px]">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2 max-w-[900px]">
+                        <div class="grid lg:grid-cols-2 gap-3">
                             <div class="flex flex-col gap-1 col-span-2">
                                 <label class="text-sm text-text opacity-65 ml-1.5">URL/Link</label>
                                 <input id="link" placeholder="https://example.com"
@@ -164,7 +166,7 @@
                             <p class="text-sm text-text opacity-65 ml-1.5">Forfattere</p>
                             <textarea id="authors" placeholder="Forfattere, f.eks:
 Terrence Andrew Davis
-Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none flex-1 w-full"></textarea>
+Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none flex-1 w-full min-h-48"></textarea>
                         </div>
                     </div>
                 </div>
@@ -229,7 +231,7 @@ Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 bac
     </div>
 
     <div id="modal-container"
-        class="left-0 top-0 w-screen h-screen fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
+        class="left-0 top-0 w-screen h-dvh fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
         <div id="modal"
             class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
 

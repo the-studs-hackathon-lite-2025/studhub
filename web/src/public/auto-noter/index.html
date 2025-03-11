@@ -24,10 +24,12 @@
 </head>
 
 <body class="font-body bg-background text-text flex">
-    <img id="hamburger" src="/assets/icons/hamburger.svg" class="fixed top-5 right-5 w-8 z-10 lg:hidden" alt="">
-    <img id="close-hamburger" src="/assets/icons/cross.svg" class="fixed top-5 right-5 w-8 z-10 z-50 hidden" alt="">
+    <div class="fixed left-[calc(100vw-20px)] -translate-x-full top-5 w-8 lg:hidden z-50">
+        <img id="hamburger" src="/assets/icons/hamburger.svg" class="w-8 absolute left-0 top-0 lg:hidden" alt="">
+        <img id="close-hamburger" src="/assets/icons/cross.svg" class="w-8 absolute left-0 top-0 hidden" alt="">
+    </div>
 
-    <div class="decorations overflow-x-hidden w-screen h-screen absolute top-0 left-1/2 -translate-x-1/2 select-none">
+    <div class="decorations overflow-x-hidden overflow-y-hidden w-screen h-dvh fixed top-0 left-1/2 -translate-x-1/2 select-none">
         <h1
             class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
             STUDHUB</h1>
@@ -36,7 +38,7 @@
             STUDHUB</h1>
     </div>
 
-    <div class="relative container mx-auto flex flex-col items-center min-h-screen">
+    <div class="container mx-auto flex flex-col items-center min-h-dvh pt-16 pb-6 lg:py-0">
         <div id="header"
             class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0 mobile-hidden min-h-screen lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
             <div class="flex gap-2 items-center">
@@ -90,8 +92,8 @@
 
                     <hr class="border-[#FFFFFF20] border-opacity-50 border-dotted">
 
-                    <div class="flex gap-2 backdrop-blur-md p-4 rounded-b-lg bg-[#00000050]">
-                        <div class="relative w-full max-h-[262px]">
+                    <div class="flex max-lg:flex-wrap gap-2 lg:backdrop-blur-md lg:p-4 rounded-b-lg lg:bg-[#00000050]">
+                        <div class="relative w-full max-h-[262px] backdrop-blur-md">
                             <canvas id="canvas"
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-md w-full h-full"></canvas>
                             <p class="absolute top-4 left-3 font-sometype-mono text-xs text-[#FFFFFF30]">
@@ -110,7 +112,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-4 bg-[#00000050] border border-border border-opacity-50 rounded-md p-2">
+                        <div class="flex flex-wrap lg:flex-col gap-2 bg-[#00000050] border border-border border-opacity-50 rounded-md p-2 backdrop-blur-md">
                             <button
                                 class="bg-highlight flex-1 hover:brightness-90 active:brightness-75 bg-opacity-70 backdrop-blur-lg w-full rounded-md text-white font-semibold py-1.5 px-4 border border-border border-opacity-50">
                                 Start
