@@ -36,7 +36,7 @@
             STUDHUB</h1>
     </div>
 
-    <div class="container mx-auto flex flex-col items-center min-h-dvh pt-16 pb-6 lg:py-0">
+    <div class="relative container mx-auto flex flex-col items-center min-h-dvh pt-16 pb-6 lg:py-0">
         <div id="header"
             class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed top-0 max-lg:border-t-0 mobile-hidden min-h-dvh lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
             <div class="flex gap-2 items-center">
@@ -62,8 +62,8 @@
         </div>
 
         <div id="input-container"
-            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[500px]">
-            <div class="w-full flex flex-col gap-10">
+            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[475px]">
+            <div class="w-full flex flex-col gap-5">
                 <div>
                     <div class="flex">
                         <h1 class="text-4xl font-semibold">
@@ -80,7 +80,7 @@
                 <div class="flex flex-col justify-center w-full">
                     <div class="search flex rounded-md w-full">
                         <input id="url"
-                            class="p-3 rounded-l-md w-full bg-highlight bg-opacity-65 backdrop-blur-sm border border-border outline-none placeholder-[#FFFFFF40]"
+                            class="p-3 rounded-l-md w-full bg-[#00000050] bg-opacity-65 backdrop-blur-sm border border-border outline-none placeholder-[#FFFFFF40]"
                             type="text" placeholder="Lenken din: f.eks https://snl.no/geit" autocomplete="off">
                         <button id="submit"
                             class="bg-primary text-background hover:brightness-90 active:brightness-75 font-semibold rounded-r-md p-3 border border-border">
@@ -110,7 +110,7 @@
                         </p>
                     </span>
                     <a href="#" id="back-to-input"
-                        class="start bg-[#19191990] hover:brightness-90 active:brightness-75 backdrop-blur-lg w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
+                        class="start bg-[#19191990] hover:brightness-90 active:brightness-75 backdrop-blur-sm w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
                         Tilbake
                     </a>
                 </div>
@@ -121,27 +121,27 @@
                             <div class="flex flex-col gap-1 col-span-2">
                                 <label class="text-sm text-text opacity-65 ml-1.5">URL/Link</label>
                                 <input id="link" placeholder="https://example.com"
-                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none">
+                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-lg py-2 px-3 outline-none">
                             </div>
                             <div class="flex flex-col gap-1 col-span-2">
                                 <label class="text-sm text-text opacity-65 ml-1.5">Nettside</label>
                                 <input id="website" placeholder="Store norske leksikon"
-                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none">
+                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-lg py-2 px-3 outline-none">
                             </div>
                             <div class="flex flex-col gap-1 col-span-2">
                                 <label class="text-sm text-text opacity-65 ml-1.5">Tittel</label>
                                 <input id="title" placeholder="Johann Wolfgang Döbereiner"
-                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none">
+                                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-lg py-2 px-3 outline-none">
                             </div>
                             <div class="flex flex-col gap-1">
                                 <label class="text-sm text-text opacity-65 ml-1.5">Dato Publisert</label>
                                 <div class="flex">
                                     <input type="number" placeholder="DD" min="1" max="31"
-                                        class="date-published bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-l-lg py-2 px-3 outline-none w-1/2">
+                                        class="date-published bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-l-lg py-2 px-3 outline-none w-1/2">
                                     <input type="number" placeholder="MM" min="1" max="12"
-                                        class="date-published bg-[#00000050] border-y border-border border-opacity-50 backdrop-blur-lg py-2 px-3 outline-none w-1/2">
+                                        class="date-published bg-[#00000050] border-y border-border border-opacity-50 backdrop-blur-sm py-2 px-3 outline-none w-1/2">
                                     <input type="number" placeholder="YY" min="0" max="2100"
-                                        class="date-published bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-r-lg py-2 px-3 outline-none w-3/5">
+                                        class="date-published bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-r-lg py-2 px-3 outline-none w-3/5">
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
@@ -151,13 +151,13 @@
                                 </div>
                                 <div class="flex">
                                     <input type="number" placeholder="DD" min="1" max="31"
-                                        class="date-accessed bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-l-lg py-2 px-3 outline-none w-1/2">
+                                        class="date-accessed bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-l-lg py-2 px-3 outline-none w-1/2">
 
                                     <input type="number" placeholder="MM" min="1" max="12"
-                                        class="date-accessed bg-[#00000050] border-y border-border border-opacity-50 backdrop-blur-lg py-2 px-3 outline-none w-1/2">
+                                        class="date-accessed bg-[#00000050] border-y border-border border-opacity-50 backdrop-blur-sm py-2 px-3 outline-none w-1/2">
 
                                     <input type="number" placeholder="YY" min="0" max="2100"
-                                        class="date-accessed bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-r-lg py-2 px-3 outline-none w-3/5">
+                                        class="date-accessed bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-r-lg py-2 px-3 outline-none w-3/5">
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                             <p class="text-sm text-text opacity-65 ml-1.5">Forfattere</p>
                             <textarea id="authors" placeholder="Forfattere, f.eks:
 Terrence Andrew Davis
-Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 outline-none flex-1 w-full min-h-48"></textarea>
+Linus Torvalds" class="custom-scroll bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-lg py-2 px-3 outline-none flex-1 w-full min-h-48 resize-none"></textarea>
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 bac
 
             <div class="right flex flex-col gap-5 lg:pl-5 flex-1">
                 <div
-                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-lg rounded-lg py-2 px-3 lg:p-6 outline-none flex-1 w-full relative">
+                    class="bg-[#00000050] border border-border border-opacity-50 backdrop-blur-sm rounded-lg py-2 px-3 lg:p-6 outline-none flex-1 w-full relative max-h-[388px] overflow-y-scroll custom-scroll">
                     <div class="flex w-full justify-between">
                         <h3 class="text-2xl font-semibold text-primary">
                             APA7
@@ -233,7 +233,7 @@ Linus Torvalds" class="bg-[#00000050] border border-border border-opacity-50 bac
     <div id="modal-container"
         class="left-0 top-0 w-screen h-dvh fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
         <div id="modal"
-            class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
+            class="bg-[#20202060] backdrop-blur-sm  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
 
         </div>
     </div>

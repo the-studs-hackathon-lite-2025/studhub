@@ -47,7 +47,7 @@ function showModal(modal_name) {
     modalContainer = document.getElementById('modal-container');
     modal = document.getElementById('modal');
 
-    modalContainer.addEventListener('click', modalHideOnClick)
+    modalContainer.onclick = modalHideOnClick;
 
     modalOpenTime = Date.now();
     modalContainer.classList.remove("hidden");
@@ -187,6 +187,8 @@ async function submitWebsite() {
     const domain = websiteURL.hostname;
     const size = 32;
 
+    modal.classList.toggle("rounded-full", true);
+
     modal.innerHTML = `
     <div class="flex gap-5 items-center">
         <div class="relative">
@@ -208,9 +210,10 @@ async function submitWebsite() {
     });
 
     const data = await response.json();
+    modal.classList.toggle("rounded-full", false);
 
     if (data.error) {
-        notify("Error", data.error, 3000, ["bg-red-500", "text-white"]);
+        notify("Error", data.error, 3000, ["bg-red-500", "text-white", "shadow-inset"]);
         hideModal();
         return;
     }
@@ -229,7 +232,7 @@ async function submitWebsite() {
     website.value = item.encyclopediaTitle || item.publisher || item.websiteTitle;
 
     if (item.creators.length > 0) {
-        authors.value = item.creators.map(creator => `${creator.firstName} ${creator.lastName}`).join('\n');
+        authors.value = item.creators.filter(creator => creator.firstName && creator.lastName).map(creator => `${creator.firstName} ${creator.lastName}`).join('\n');
     }
 
     if (item.date) {
@@ -397,7 +400,7 @@ async function generatePreviews(event, aiDelay = 500) {
 }
 
 [title, link, website, datePublishedDay, datePublishedMonth, datePublishedYear, dateAccessedDay, dateAccessedMonth, dateAccessedYear, authors].forEach(input => {
-    input.addEventListener('input', generatePreviews);
+    input.oninput = generatePreviews;
 });
 
-submit.addEventListener('click', submitWebsite);
+submit.onclick = submitWebsite;

@@ -10,18 +10,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link href="https://fonts.googleapis.com/css?family=Sometype%20Mono:wght@400;500,600,700,800&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/assets/logo.webp" />
 
-    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="/global.css">
 
+    <script defer src="/ai-detektor/script.js"></script>
     <script src="/global.js"></script>
     <script src="/assets/tailwind.js"></script>
     <script src="/assets/tailwind.config.js"></script>
 </head>
 
-<body class="font-body bg-background text-text flex justify-center items-center h-screen">
-    <div class="decorations overflow-x-hidden w-screen h-screen absolute top-0 left-1/2 -translate-x-1/2 select-none">
+<body class="font-body bg-background text-text flex overflow-x-hidden">
+    <div class="fixed left-[calc(100vw-20px)] -translate-x-full top-5 w-8 lg:hidden z-50">
+        <img id="hamburger" src="/assets/icons/hamburger.svg" class="w-8 absolute left-0 top-0 lg:hidden" alt="">
+        <img id="close-hamburger" src="/assets/icons/cross.svg" class="w-8 absolute left-0 top-0 hidden" alt="">
+    </div>
+
+    <div class="decorations overflow-x-hidden overflow-y-hidden w-screen h-dvh fixed top-0 left-1/2 -translate-x-1/2 select-none">
         <h1
             class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
             STUDHUB</h1>
@@ -30,9 +38,9 @@
             STUDHUB</h1>
     </div>
 
-    <div class="relative container mx-auto flex flex-col items-center min-h-screen">
+    <div class="relative container mx-auto flex flex-col items-center min-h-dvh pt-16 pb-6 lg:py-0">
         <div id="header"
-            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed max-lg:border-t-0 mobile-hidden min-h-screen lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
+            class="z-10 flex flex-col lg:flex-row w-screen container 2xl:max-w-[75vw] bg-[#FFFFFF05] mt-4 lg:h-9 max-lg:h-10 max-lg:rounded-none rounded-md shadow-md border border-[#33333361] max-lg:mt-0 max-lg:pt-1 max-lg:max-w-[100vw] max-lg:fixed top-0 max-lg:border-t-0 mobile-hidden min-h-dvh lg:min-h-min items-center justify-center lg:justify-between max-lg:p-20">
             <div class="flex gap-2 items-center">
                 <a href="/" class="cursor-pointer opacity-95 active:opacity-100 hover:underline">
                     <img alt="Logo" class="ml-1 h-12 lg:h-8 max-lg:ml-2 p-1.5" src="/assets/img/logo.png">
@@ -55,8 +63,9 @@
             </div>
         </div>
 
-        <div class="px-5 my-5 lg:my-auto gap-5">
-            <div class="mt-4 w-full h-full flex-1 bg-[#00000090] backdrop-blur-md rounded-md p-48 px-96 border border-border animate-bounce">
+        <div id="input-container"
+            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px]">
+            <div class="w-full flex flex-col gap-5">
                 <div>
                     <div class="flex">
                         <h1 class="text-4xl font-semibold">
@@ -66,19 +75,36 @@
                         <br>
                     </div>
                     <p class="text-sm opacity-65">
-                        Detekterer kunstig intelligens i tekst
+                        Finn bruk av AI i en tekst
                     </p>
+                </div>
+
+                <div class="flex flex-col justify-center w-full h-full gap-2">
+                    <div class="h-full flex flex-col overflow-hidden">
+                        <textarea id="input" placeholder="Teksten din..." class="bg-[#00000050] border border-b-0 border-border border-opacity-50 backdrop-blur-sm rounded-lg rounded-b-none py-5 px-6 outline-none flex-1 w-full h-full resize-none custom-scroll"></textarea>
+                        <div class="flex items-center justify-between bg-[#00000050] border border-border border-opacity-50 rounded-lg rounded-t-none backdrop-blur-sm shadow" style="box-shadow: 0 -20px 45px #0a0a0a;">
+                            <div class="py-2 px-3 flex gap-4 items-center font-sometype-mono">
+                                <p><span id="char-count">0</span> figurer <span class="opacity-45">/</span> </p>
+                                <p><span id="word-count">0</span> ord <span class="opacity-45">/</span> </p>
+                                <p><span id="sentence-count">0</span> setninger</p>
+                            </div>
+                            <button id="submit" class="bg-primary hover:brightness-90 active:brightness-75 bg-opacity-90 backdrop-blur-sm w-1/3 h-fit rounded-br-md font-bold text-background py-1.5 px-6 mt-1 border border-border">
+                                Analyser
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="modal-container"
-            class="left-0 top-0 w-screen h-screen fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
-            <div id="modal"
-                class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
+    <div id="modal-container"
+        class="left-0 top-0 w-screen h-dvh fixed backdrop-blur-md z-30 flex justify-center backdrop-saturate-50 backdrop-brightness-75 items-center bg-[#00000070] duration-500 hidden">
+        <div id="modal"
+            class="bg-[#20202060] backdrop-blur-lg  p-6 pb-5 rounded-xl border border-[#00000050] w-full max-w-[400px] duration-300 text-white flex justify-between items-center">
 
-            </div>
         </div>
     </div>
 </body>
+
 </html>
