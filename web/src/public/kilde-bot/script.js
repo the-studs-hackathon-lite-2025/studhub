@@ -404,3 +404,9 @@ async function generatePreviews(event, aiDelay = 500) {
 });
 
 submit.onclick = submitWebsite;
+
+url.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+        submit.click();
+    }
+}

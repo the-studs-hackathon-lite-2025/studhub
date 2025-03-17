@@ -22,6 +22,31 @@
     <script src="/assets/tailwind.js"></script>
     <script src="/assets/tailwind.config.js"></script>
 </head>
+<style>
+    :root {
+        --main-text-color: black;
+        --main-bg-color: #f5f5f7;
+        --secondary-bg-color: #dadada;
+        --main-shadow-color: rgba(202, 202, 202, 0.4);
+        --main-border-color: #e6e6e6;
+        --main-border-color-focused: rgba(50, 50, 150, 0.3);
+        --main-border-color-focused-block: rgb(80, 20, 30);
+        --primary-button-color-block: rgb(200, 30, 30);
+        --primary-button-color: rgb(80, 100, 200);
+        --primary-button-hover: rgb(60, 75, 150) --primary-textbox-color: white;
+        --main-textbox-text-color: white;
+        --theme-button-bg-color: #f5f5f7;
+        --theme-button-border-color: rgb(200, 200, 200);
+        --main-glow-opacity: 30%;
+        --base-width: 400px;
+        --green-highlight: greenyellow;
+        --red-highlight: lightcoral;
+        --human-highlight: rgba(100, 140, 100, 0.5);
+        --ai-highlight: rgba(160, 50, 50, 0.5);
+        --mix-highlight: color-mix(in srgb, var(--ai-highlight), var(--human-highlight));
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+</style>
 
 <body class="font-body bg-background text-text flex overflow-x-hidden">
     <div class="fixed left-[calc(100vw-20px)] -translate-x-full top-5 w-8 lg:hidden z-50">
@@ -29,7 +54,8 @@
         <img id="close-hamburger" src="/assets/icons/cross.svg" class="w-8 absolute left-0 top-0 hidden" alt="">
     </div>
 
-    <div class="decorations overflow-x-hidden overflow-y-hidden w-screen h-dvh fixed top-0 left-1/2 -translate-x-1/2 select-none">
+    <div
+        class="decorations overflow-x-hidden overflow-y-hidden w-screen h-dvh fixed top-0 left-1/2 -translate-x-1/2 select-none">
         <h1
             class="text-[300px] font-semibold text-[#FFFFFF08] absolute top-1/2 -translate-y-[calc(50%+150px)] -translate-x-1/2 left-1/2">
             STUDHUB</h1>
@@ -64,7 +90,7 @@
         </div>
 
         <div id="input-container"
-            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px]">
+            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px] hidden">
             <div class="w-full flex flex-col gap-5">
                 <div>
                     <div class="flex">
@@ -81,17 +107,81 @@
 
                 <div class="flex flex-col justify-center w-full h-full gap-2">
                     <div class="h-full flex flex-col overflow-hidden">
-                        <textarea id="input" placeholder="Teksten din..." class="bg-[#00000050] border border-b-0 border-border border-opacity-50 backdrop-blur-sm rounded-lg rounded-b-none py-5 px-6 outline-none flex-1 w-full h-full resize-none custom-scroll min-h-96 max-h-[calc(100vh-200px)]"></textarea>
-                        <div class="flex items-center justify-between bg-[#00000050] border border-border border-opacity-50 rounded-lg rounded-t-none backdrop-blur-sm shadow" style="box-shadow: 0 -20px 45px #0a0a0a;">
-                            <div class="py-2 px-3 flex gap-4 items-center font-sometype-mono">
-                                <p><span id="char-count">0</span> figurer <span class="opacity-45">/</span> </p>
-                                <p><span id="word-count">0</span> ord <span class="opacity-45">/</span> </p>
+                        <textarea id="input" placeholder="Teksten din..."
+                            class="bg-[#00000050] border border-b-0 border-border border-opacity-50 backdrop-blur-sm rounded-lg rounded-b-none py-5 px-6 outline-none flex-1 w-full h-full resize-none custom-scroll min-h-96 max-h-[calc(100vh-200px)]"></textarea>
+                        <div class="flex max-lg:flex-col items-center justify-between bg-[#00000050] border border-border border-opacity-50 rounded-lg rounded-t-none backdrop-blur-sm shadow"
+                            style="box-shadow: 0 -20px 45px #0a0a0a;">
+                            <div class="py-2 px-3 flex gap-2 lg:gap-4 items-center font-sometype-mono flex-wrap">
+                                <p><span id="char-count">0</span> figurer <span
+                                        class="opacity-45 max-lg:hidden">/</span> </p>
+                                <p><span id="word-count">0</span> ord <span class="opacity-45 max-lg:hidden">/</span>
+                                </p>
                                 <p><span id="sentence-count">0</span> setninger</p>
                             </div>
-                            <button id="submit" class="bg-primary hover:brightness-90 active:brightness-75 bg-opacity-90 backdrop-blur-sm w-1/3 h-fit rounded-br-md font-bold text-background py-1.5 px-6 mt-1 border border-border">
+                            <button id="submit"
+                                class="bg-primary hover:brightness-90 active:brightness-75 bg-opacity-90 backdrop-blur-sm w-full lg:w-1/3 h-fit rounded-br-md max-lg:rounded-b-md font-bold text-background py-1.5 px-6 mt-1 border border-border">
                                 Analyser
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="output-container" class="px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px]">
+            <h2 class="text-4xl font-semibold">
+                Teksten er <span id="ai-detektor-output" class="font-bold text-primary">kansje</span> lagd av AI
+            </h2>
+
+            <div class="flex gap-4">
+                <div
+                    class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
+                    <div class="flex justify-between text-lg font-semibold">
+                        <h3>
+                            RADAR models
+                        </h3>
+
+                        <p>
+                            ⚠️
+                        </p>
+                    </div>
+
+                    <div class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                        <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                            background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                        ">
+                            91% / DOLLY V1 6B
+                        </div>
+                        <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                            background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
+                        ">
+                            86% / DOLLY V2 3B
+                        </div>
+                        <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                            background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                        ">
+                            69% / VICUNA 7B
+                        </div>
+                        <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                            background: linear-gradient(to right, var(--human-highlight) 0.3069634782150388%, transparent 0.3069634782150388%) no-repeat;
+                        ">
+                            0% / CAMEL 5B
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div
+                    class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-2 backdrop-blur-sm font-sometype-mono w-full">
+                    <div class="flex justify-between text-lg font-semibold">
+                        <h3>
+                            RADAR models
+                        </h3>
+
+                        <p>
+                            ⚠️
+                        </p>
                     </div>
                 </div>
             </div>

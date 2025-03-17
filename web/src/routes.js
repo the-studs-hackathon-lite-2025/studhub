@@ -9,6 +9,8 @@ router.get('/robots.min.txt', apiController.getRobotsMinified);
 
 // api logic
 router.post('/api/v1/cite', apiController.cite);
+router.post('/api/upload', apiController.uploadAudio);
+router.get('/api/v1/transcribe/:id', apiController.transcribeAudio);
 
 router.use((req, res, next) => {
     if (req.method === 'GET') {

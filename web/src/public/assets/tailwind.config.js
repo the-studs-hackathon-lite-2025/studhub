@@ -13,6 +13,9 @@ tailwind.config = {
                 'background': '#0a0a0a',
                 'highlight': '#0f0f0f',
                 'border': '#1b1b1b',
+            },
+            fontSize: {
+                'xss': '.625rem',
             }
         }
     }

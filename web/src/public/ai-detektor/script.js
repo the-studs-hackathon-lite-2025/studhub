@@ -77,12 +77,17 @@ function countTextStats(text) {
     };
 };
 
+let BASE_URL = "https://api.jooo.tech/query";
+
 const input = document.getElementById('input');
 const submit = document.getElementById('submit');
 
 const charCount = document.getElementById('char-count');
 const wordCount = document.getElementById('word-count');
 const sentenceCount = document.getElementById('sentence-count');
+
+const inputContainer = document.getElementById('input-container');
+const outputContainer = document.getElementById('output-container');
 
 input.addEventListener('input', () => {
     const stats = countTextStats(input.value);
@@ -106,4 +111,86 @@ submit.addEventListener('click', () => {
             <p class="text-xl">processing<span class="opacity-50">, please be patient</span></p>
         </div>
     </div>`;
+
+    getDetectionResults(input.value);
 });
+
+function getDetectionResults(text) {
+    hideModal();
+
+    inputContainer.classList.add('hidden');
+    outputContainer.classList.remove('hidden');
+}
+
+/* bing bang boom from https://ai.jooo.tech/detector.js */
+
+function VERDICT_WRAPPER(path, text) {
+    return fetch(BASE_URL + "/" + path, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ "text": text }),
+    })
+}
+
+function ZEROGPT_VERDICT(query_text) {
+    return VERDICT_WRAPPER("/zerogpt", query_text)
+}
+
+function GPTZERO_VERDICT(query_text) {
+    return VERDICT_WRAPPER("/gptzero", query_text)
+}
+
+function gltr_VERDICT(query_text) {
+    return VERDICT_WRAPPER("/gltr_interp", query_text)
+}
+
+function SEOAI_VERDICT(query_text) {
+    return fetch("https://tools.seo.ai/api/ai-detection", {
+        method: "POST",
+        body: JSON.stringify({ "text": query_text }),
+
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
+function ROBERTA_VERDICT(query_array) {
+    return fetch("https://api-inference.huggingface.co/models/roberta-base-openai-detector", {
+        method: "POST",
+        body: JSON.stringify(query_array),
+        headers: { "Authorization": "Bearer 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" }
+    })
+}
+
+function RADAR_WRAPPER(query_text, index) {
+    return fetch("https://radar-app.vizhub.ai/api/checkTexts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            model_index: index,
+            texts: [query_text]
+        })
+    });
+}
+
+
+function DOLLY_V2_3B_VERDICT(query_text) {
+    return RADAR_WRAPPER(query_text, 0);
+}
+
+function CAMEL_5B_VERDICT(query_text) {
+    return RADAR_WRAPPER(query_text, 1);
+}
+
+function DOLLY_V1_6B_VERDICT(query_text) {
+    return RADAR_WRAPPER(query_text, 2);
+}
+
+function VICUNA_7B_VERDICT(query_text) {
+    return RADAR_WRAPPER(query_text, 3);
+}

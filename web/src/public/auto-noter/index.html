@@ -23,7 +23,7 @@
     <script src="/assets/tailwind.config.js"></script>
 </head>
 
-<body class="font-body bg-background text-text flex">
+<body class="font-body bg-background text-text flex overflow-x-hidden">
     <div class="fixed left-[calc(100vw-20px)] -translate-x-full top-5 w-8 lg:hidden z-50">
         <img id="hamburger" src="/assets/icons/hamburger.svg" class="w-8 absolute left-0 top-0 lg:hidden" alt="">
         <img id="close-hamburger" src="/assets/icons/cross.svg" class="w-8 absolute left-0 top-0 hidden" alt="">
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-2 xl:divide-x divide-[#FFFFFF30] w-full px-5 my-5 lg:my-auto gap-5">
+        <div id="input-container" class="grid lg:grid-cols-2 xl:divide-x divide-[#FFFFFF30] w-full px-5 my-5 lg:my-auto gap-5">
             <div class="left w-full flex flex-col gap-5">
                 <div>
                     <div class="flex">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="flex flex-col">
-                    <div class="flex flex-col backdrop-blur-md p-4 rounded-t-lg bg-[#00000050] w-full">
+                    <div class="flex flex-col backdrop-blur-sm p-4 rounded-t-lg bg-[#00000050] w-full">
                         <div class="flex justify-between items-center">
                             <span>
                                 <h4 class="text-lg font-semibold text-primary">Mikrofon</h4>
@@ -92,14 +92,14 @@
 
                     <hr class="border-[#FFFFFF20] border-opacity-50 border-dotted">
 
-                    <div class="flex max-lg:flex-wrap gap-2 lg:backdrop-blur-md lg:p-4 rounded-b-lg lg:bg-[#00000050]">
-                        <div class="relative w-full max-h-[262px] backdrop-blur-md">
+                    <div class="flex max-lg:flex-wrap gap-2 lg:backdrop-blur-sm lg:p-4 rounded-b-lg lg:bg-[#00000050]">
+                        <div class="relative w-full max-h-[262px] backdrop-blur-sm">
                             <canvas id="canvas"
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-md w-full h-full"></canvas>
-                            <p class="absolute top-4 left-3 font-sometype-mono text-xs text-[#FFFFFF30]">
+                            <p class="absolute top-3 left-3 font-sometype-mono text-xs text-[#FFFFFF30]">
                                 NOT RECORDING
                             </p>
-                            <p class="text-3xl font-sometype-mono absolute top-4 right-3 text-[#FFFFFF30]">
+                            <p class="text-3xl font-sometype-mono absolute top-3 right-3 text-[#FFFFFF30]">
                                 00:00
                             </p>
                             <div class="text-md font-sometype-mono leading-4 tracking-wider left-4 bottom-4 absolute">
@@ -112,7 +112,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap lg:flex-col gap-2 bg-[#00000050] border border-border border-opacity-50 rounded-md p-2 backdrop-blur-md">
+                        <div class="flex flex-wrap lg:flex-col gap-2 bg-[#00000050] border border-border border-opacity-50 rounded-md p-2 backdrop-blur-sm">
                             <button
                                 class="bg-highlight flex-1 hover:brightness-90 active:brightness-75 bg-opacity-70 backdrop-blur-sm w-full rounded-md text-white font-semibold py-1.5 px-4 border border-border border-opacity-50">
                                 Start
@@ -146,10 +146,10 @@
 
                 <div id="drop-zone">
                     <input type="file" id="file-input" class="hidden">
-                    <div class="bg-[#00000050] p-3 rounded-lg backdrop-blur-md">
-                        <div id="drop-zone-content" class="border-2 border-dashed border-[#FFFFFF30] rounded-md
+                    <div class="relative bg-[#00000050] p-3 rounded-lg backdrop-blur-[6px]">
+                        <div id="drop-zone-content" class="border-2 border-dashed border-[#FFFFFF30] rounded-md backdrop-blur-sm
                         flex flex-col justify-center items-center p-4 py-8">
-                            <svg fill="#e9e7f4" width="200px" height="200px" viewBox="0 0 32 32" version="1.1"
+                            <svg id="icon" fill="#e9e7f4" width="200px" height="200px" viewBox="0 0 32 32" version="1.1" class="duration-300"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <title>upload-cloud</title>
                                 <path
@@ -157,13 +157,29 @@
                                 </path>
                             </svg>
 
-                            <h3 class="text-3xl font-semibold text-center max-w-[300px] mt-6">
-                                Dra og slipp eller <a href="#"
-                                    class="underline decoration-accent text-primary">upload</a>
+                            <h3 class="text-3xl font-semibold text-center max-w-[300px] mt-6 duration-500" id="message">
+                                Dra og <span class="drop-text duration-300 text-text">slipp</span> eller <a href="#"
+                                    class="underline decoration-accent text-primary duration-500">upload</a>
                                 lydfilen din
                             </h3>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="output-container" class="grid lg:grid-cols-2 xl:divide-x divide-[#FFFFFF30] w-full px-5 my-5 lg:my-auto gap-5 hidden">
+            <div class="mt-4 w-full h-full flex-1 bg-[#00000090] backdrop-blur-md rounded-md p-48 px-96 border border-border">
+                <div>
+                    <div class="flex">
+                        <h1 class="text-4xl font-semibold">
+                            IWTBMDTF
+                        </h1>
+                        <br>
+                    </div>
+                    <p class="text-sm opacity-65">
+                        I Will Transcribe But My Dog Too Fast
+                    </p>
                 </div>
             </div>
         </div>

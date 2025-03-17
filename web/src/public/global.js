@@ -75,7 +75,7 @@ async function queryAPI(endpoint, data) {
     return await response.json();
 }
 
-async function navigateTo(path) {  
+async function navigateTo(path) {
     window.onload = null;
     const res = await fetch(path)
     const html = await res.text();
@@ -84,6 +84,11 @@ async function navigateTo(path) {
         console.error("[STUD ROUTER] Non 2xx status code; Skipping SPA navigation.", res.status);
         location.href = path;
         return;
+    }
+
+    if (window.cleanup) {
+        window.cleanup();
+        window.cleanup = null;
     }
 
     document.body.innerHTML = html;
@@ -98,6 +103,7 @@ async function navigateTo(path) {
             const src = new URL(script.src);
 
             if (src.pathname === '/global.js') continue
+            console.log("Fetching script", src);
 
             try {
                 const code = await fetch(src).then(res => res.text());
