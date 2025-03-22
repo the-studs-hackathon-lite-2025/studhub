@@ -219,3 +219,8 @@ function notify(title, message, duration = 2500, classes = []) {
         clearInterval(timerInterval);
     });
 }
+
+
+window.onload = () => {
+    //document.body.style.background = "url('https://up.pumping.lol/1625')";
+};

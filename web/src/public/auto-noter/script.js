@@ -1,6 +1,10 @@
 const inputContainer = document.getElementById('input-container');
 const outputContainer = document.getElementById('output-container');
 
+const record = document.getElementById('record');
+const stop = document.getElementById('stop');
+const pause = document.getElementById('pause');
+
 let modalContainer = document.getElementById('modal-container');
 let modal = document.getElementById('modal');
 let modalOpenTime;
@@ -9,6 +13,58 @@ let modalCloseTime;
 let modal_name;
 
 let canClose = true;
+
+
+stop.disabled = true;
+
+// Main block for doing the audio recording
+if (navigator.mediaDevices.getUserMedia) {
+  console.log("The mediaDevices.getUserMedia() method is supported.");
+
+  const constraints = { audio: true };
+  let chunks = [];
+
+  let onSuccess = function (stream) {
+    const mediaRecorder = new MediaRecorder(stream);
+
+    record.onclick = function () {
+      mediaRecorder.start();
+      console.log(mediaRecorder.state);
+      console.log("Recorder started.");
+      record.style.background = "red";
+
+      stop.disabled = false;
+      record.disabled = true;
+      console.log("recording")
+    };
+
+    stop.onclick = function () {
+      mediaRecorder.stop();
+      console.log(mediaRecorder.state);
+      console.log("Recorder stopped.");
+      record.style.background = "";
+      record.style.color = "";
+
+      stop.disabled = true;
+      record.disabled = false;
+      console.log("uploaded")
+    };
+
+    let paused = false;
+
+    pause.onclick = () => {
+      if (paused) {
+        mediaRecorder.resume();
+        paused = false;
+        console.log("resumed")
+      } else {
+        mediaRecorder.pause();
+        paused = true;
+        console.log("paused")
+      }
+    }
+}
+};
 
 function modalHideOnClick(e) {
     const timePassed = Date.now() > (modalOpenTime + 450);
@@ -191,11 +247,12 @@ async function uploadFiles(files) {
             <svg class="size-10 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
         </div>
         <div>
-            <p class="text-xl">processing<span class="opacity-50">, please be patient</span></p>
+            <p class="opacity-50 text-sm">STEP 1/2</p>
+            <p class="text-xl">uploading<span class="opacity-50">, please be patient</span></p>
         </div>
     </div>`;
     }
-
+    return
     const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData
@@ -203,6 +260,35 @@ async function uploadFiles(files) {
 
     const data = await response.json();
     const id = data.id;
+
+    handleUpload(id);
+}
+
+async function handleUpload(id) {
+    const url = location.origin + '/uploads/' + id;
+
+    modal.animate([
+        { transform: 'scale(0.9)' },
+        { transform: 'scale(1.05)' },
+        { transform: 'scale(1)' }
+    ], {
+        duration: 300,
+        easing: 'ease-out'
+    });
+
+    modal.innerHTML = `
+    <div class="flex gap-5 items-center">
+        <div class="relative">
+            <svg class="size-10 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+        </div>
+        <div>
+            <p class="opacity-50 text-sm">STEP 2/2</p>
+            <p class="text-xl">transcribing<span class="opacity-50">, please be patient</span></p>
+        </div>
+    </div>`;
+
+    const file = await fetch(`/api/v1/transcribe/${encodeURIComponent(url)}`);
+    const data = await file.json();
 
     modal.innerHTML = `
     <div class="flex gap-5 items-center">
@@ -227,7 +313,7 @@ async function uploadFiles(files) {
         </div>
         <div>
             <p class="opacity-50 text-sm">SUCCESS</p>
-            <p class="text-xl">File uploaded</p>
+            <p class="text-xl">Transcribed successfully</p>
         </div>
     </div>`;
 
@@ -240,13 +326,6 @@ async function uploadFiles(files) {
     }).onfinish = () => {
         hideModal();
     }
-
-    handleUpload(id);
-}
-
-async function handleUpload(id) {
-    const file = await fetch(`/api/transcribe/${id}`);
-    const data = await file.json();
 
     inputContainer.animate([
         { opacity: 1, transform: 'scale(1)' },
