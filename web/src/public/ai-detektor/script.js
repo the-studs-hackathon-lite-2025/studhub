@@ -97,6 +97,32 @@ input.addEventListener('input', () => {
 });
 
 submit.addEventListener('click', () => {
+    getDetectionResults(input.value);
+});
+
+async function getDetectionResults(text) {
+    if (text.length === 0) {
+        hideModal();
+        
+        notify("Error", "Please write something", 3000, ["bg-red-500", "text-white", "shadow-inset"]);
+
+        input.animate([
+            { boxShadow: "0 0 0 1px rgba(255, 0, 0, 0.5)" },
+            { transform: 'translateX(-0.25rem)' },
+            { transform: 'translateX(0.25rem)' },
+            { transform: 'translateX(-0.25rem)' },
+            { transform: 'translateX(0.25rem)' },
+            { transform: 'translateX(-0.25rem)' },
+            { transform: 'translateX(0.25rem)' },
+        ], {
+            duration: 300,
+            iterations: 1
+        });
+
+        input.focus();
+        return;
+    }
+
     showModal('loading');
 
     modal.classList.toggle("rounded-full", true);
@@ -109,20 +135,47 @@ submit.addEventListener('click', () => {
         </div>
         <div>
             <p class="text-xl">processing<span class="opacity-50">, please be patient</span></p>
+
+            <div class="w-full mt-2">
+                <div class="h-1 bg-[#000000A0] backdrop-blur-sm rounded-full shadow">
+                    <div id="detection-progress" class="h-full bg-primary rounded-full duration-300" style="width: 0%"></div>
+                </div>
+            </div>
         </div>
     </div>`;
 
-    getDetectionResults(input.value);
-});
+    const detectionProgressBar = document.getElementById('detection-progress');
 
-function getDetectionResults(text) {
-    hideModal();
+    const verdicts = {
+        "ZERO_GPT": ZEROGPT_VERDICT(text),
+        "GPT_ZERO": GPTZERO_VERDICT(text),
+        "GLTR": gltr_VERDICT(text),
+        "SEO_AI": SEOAI_VERDICT(text),
+        "ROBERTA": ROBERTA_VERDICT([text]),
+        "RADAR": RADAR_AGGREGATE(text)
+    };
 
+    let resolved = 0;
+
+    for (const [key, value] of Object.entries(verdicts)) {
+        verdicts[key] = value.then(async (response) => {
+            const json = await response.json();
+
+            verdicts[key] = json;
+
+            notify("Success", `${key} done`, 3000, ["bg-green-500", "text-white", "shadow-inset"]);
+            detectionProgressBar.style.width = `${(resolved++ + 1) / Object.keys(verdicts).length * 100}%`;
+        });
+    }
+
+    await Promise.all(Object.values(verdicts));
+
+    console.log(verdicts);
     inputContainer.classList.add('hidden');
     outputContainer.classList.remove('hidden');
 }
 
-/* bing bang boom from https://ai.jooo.tech/detector.js */
+/* "inspired" by https://ai.jooo.tech/detector.js */
 
 function VERDICT_WRAPPER(path, text) {
     return fetch(BASE_URL + "/" + path, {
@@ -135,15 +188,15 @@ function VERDICT_WRAPPER(path, text) {
 }
 
 function ZEROGPT_VERDICT(query_text) {
-    return VERDICT_WRAPPER("/zerogpt", query_text)
+    return VERDICT_WRAPPER("zerogpt", query_text)
 }
 
 function GPTZERO_VERDICT(query_text) {
-    return VERDICT_WRAPPER("/gptzero", query_text)
+    return VERDICT_WRAPPER("gptzero", query_text)
 }
 
 function gltr_VERDICT(query_text) {
-    return VERDICT_WRAPPER("/gltr_interp", query_text)
+    return VERDICT_WRAPPER("gltr_interp", query_text)
 }
 
 function SEOAI_VERDICT(query_text) {
@@ -163,6 +216,22 @@ function ROBERTA_VERDICT(query_array) {
         body: JSON.stringify(query_array),
         headers: { "Authorization": "Bearer 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" }
     })
+}
+
+async function RADAR_AGGREGATE(query_text) {
+    const results = await Promise.all([
+        DOLLY_V2_3B_VERDICT(query_text),
+        CAMEL_5B_VERDICT(query_text),
+        DOLLY_V1_6B_VERDICT(query_text),
+        VICUNA_7B_VERDICT(query_text)
+    ]);
+
+    return {
+        json: async () => {
+            const jsonResults = await Promise.all(results.map(result => result.json()));
+            return jsonResults;
+        }
+    };
 }
 
 function RADAR_WRAPPER(query_text, index) {

@@ -179,6 +179,8 @@ async function submitWebsite() {
         });
 
         notify("Invalid URL", "Please enter a valid URL", 3000, ["bg-red-500", "text-white"]);
+
+        search.focus();
         return
     }
 

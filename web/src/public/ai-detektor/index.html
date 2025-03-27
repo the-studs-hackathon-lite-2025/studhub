@@ -89,8 +89,7 @@
             </div>
         </div>
 
-        <div id="input-container"
-            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px] hidden">
+        <div id="input-container" class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px]">
             <div class="w-full flex flex-col gap-5">
                 <div>
                     <div class="flex">
@@ -106,7 +105,7 @@
                 </div>
 
                 <div class="flex flex-col justify-center w-full h-full gap-2">
-                    <div class="h-full flex flex-col overflow-hidden">
+                    <div class="h-full flex flex-col">
                         <textarea id="input" placeholder="Teksten din..."
                             class="bg-[#00000050] border border-b-0 border-border border-opacity-50 backdrop-blur-sm rounded-lg rounded-b-none py-5 px-6 outline-none flex-1 w-full h-full resize-none custom-scroll min-h-96 max-h-[calc(100vh-200px)]"></textarea>
                         <div class="flex max-lg:flex-col items-center justify-between bg-[#00000050] border border-border border-opacity-50 rounded-lg rounded-t-none backdrop-blur-sm shadow"
@@ -128,12 +127,12 @@
             </div>
         </div>
 
-        <div id="output-container" class="px-5 my-auto gap-5 w-full max-w-[1200px] h-full max-h-[600px]">
+        <div id="output-container" class="px-5 my-auto gap-5 w-full max-w-[1200px] h-full max-h-[600px] hidden">
             <h2 class="text-4xl font-semibold bg-background w-fit p-3 bg-opacity-75 backdrop-blur-lg">
                 Teksten er <span id="ai-detektor-output" class="font-bold text-primary">kansje</span> lagd av AI
             </h2>
 
-            <div class="flex gap-4 mt-10">
+            <div class="flex gap-4 mt-10 pb-5">
                 <div class="flex w-full gap-4 flex-col sticky self-start top-4">
                     <div
                         class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
