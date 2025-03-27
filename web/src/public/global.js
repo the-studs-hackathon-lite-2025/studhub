@@ -98,11 +98,13 @@ async function navigateTo(path) {
     const scripts = Array.from(document.querySelectorAll('script'));
     replaceATags();
 
-    for (const script of scripts) {
+    await Promise.all(scripts.map(async (script) => {
         if (script.src) {
             const src = new URL(script.src);
 
-            if (src.pathname === '/global.js') continue
+            if (src.pathname === '/global.js') return;
+            if (src.pathname === "/assets/tailwind.js") return;
+
             console.log("Fetching script", src);
 
             try {
@@ -110,18 +112,17 @@ async function navigateTo(path) {
 
                 if (script.type === 'module') {
                     await import(src);
-                    continue;
+                } else {
+                    setTimeout(() => {
+                        try {
+                            eval(code);
+                        } catch (e) {
+                            console.log("Failed to eval script", src);
+                            console.error(e);
+                        }
+                    }, 25);
                 }
-    
-                setTimeout(() => {
-                    try {
-                        eval(code);
-                    } catch (e) {
-                        console.log("Failed to eval script", src);
-                        console.error(e);
-                    }
-                }, 25);
-            } catch(e) {
+            } catch (e) {
                 console.error("Failed to fetch script", src);
                 console.error(e);
             }
@@ -132,7 +133,7 @@ async function navigateTo(path) {
                 console.error(e);
             }
         }
-    }
+    }));
 
     if (window.onload) window.onload();
 }
@@ -221,6 +222,8 @@ function notify(title, message, duration = 2500, classes = []) {
 }
 
 
-window.onload = () => {
-    document.body.style.background = "url('https://up.pumping.lol/1625')";
+window.preload = () => {
+    // document.body.style.background = "url('https://images.unsplash.com/photo-1544411047-c491e34a24e0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
+    document.body.style.backgroundSize = "cover";
+    document.getElementById('header').classList.add('backdrop-blur-sm', 'backdrop-brightness-50', 'backdrop-contrast-90', 'py-3', 'px-2', 'rounded-3xl');
 };
