@@ -89,6 +89,8 @@ const sentenceCount = document.getElementById('sentence-count');
 const inputContainer = document.getElementById('input-container');
 const outputContainer = document.getElementById('output-container');
 
+const aggregateOverview = document.getElementById('aggregate-overview');
+
 input.addEventListener('input', () => {
     const stats = countTextStats(input.value);
     charCount.textContent = stats.characters
@@ -138,7 +140,7 @@ async function getDetectionResults(text) {
 
             <div class="w-full mt-2">
                 <div class="h-1 bg-[#000000A0] backdrop-blur-sm rounded-full shadow">
-                    <div id="detection-progress" class="h-full bg-primary rounded-full duration-300" style="width: 0%"></div>
+                    <div id="detection-progress" class="h-full bg-primary rounded-full duration-1000" style="width: 0%"></div>
                 </div>
             </div>
         </div>
@@ -149,19 +151,21 @@ async function getDetectionResults(text) {
     const verdicts = {
         "ZERO_GPT": ZEROGPT_VERDICT(text),
         "GPT_ZERO": GPTZERO_VERDICT(text),
-        "GLTR": gltr_VERDICT(text),
+        "GLTR": GLTR_VERDICT(text),
         "SEO_AI": SEOAI_VERDICT(text),
         "ROBERTA": ROBERTA_VERDICT([text]),
         "RADAR": RADAR_AGGREGATE(text)
     };
 
+    setTimeout(() => {
+        detectionProgressBar.style.width = "10%";
+    }, 100);
+
     let resolved = 0;
 
     for (const [key, value] of Object.entries(verdicts)) {
         verdicts[key] = value.then(async (response) => {
-            const json = await response.json();
-
-            verdicts[key] = json;
+            verdicts[key] = response;
 
             notify("Success", `${key} done`, 3000, ["bg-green-500", "text-white", "shadow-inset"]);
             detectionProgressBar.style.width = `${(resolved++ + 1) / Object.keys(verdicts).length * 100}%`;
@@ -173,6 +177,250 @@ async function getDetectionResults(text) {
     console.log(verdicts);
     inputContainer.classList.add('hidden');
     outputContainer.classList.remove('hidden');
+
+    let subtemplates = {
+        ZERO_GPT: null,
+        GPT_ZERO: null,
+        GLTR: null,
+        SEO_AI: null,
+        ROBERTA: null,
+        RADAR: null
+    }
+
+    for (const [key, value] of Object.entries(verdicts)) {
+        switch (key) {
+            case "ZERO_GPT":
+                verdicts[key] = value;
+                break;
+            case "GPT_ZERO":
+                verdicts[key] = value;
+                break;
+            case "GLTR":
+                verdicts[key] = value;
+                break;
+            case "SEO_AI":
+                verdicts[key] = value;
+                break;
+            case "ROBERTA":
+                verdicts[key] = value.data[0][0];
+                break;
+            case "RADAR":
+                verdicts[key] = await value.json();
+
+                subtemplates.RADAR = `<div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        RADAR models
+                                    </h3>
+    
+                                    <p>
+                                        ⚠️
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                        91% / DOLLY V1 6B
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
+                            ">
+                                        86% / DOLLY V2 3B
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                        69% / VICUNA 7B
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--human-highlight) 0.3069634782150388%, transparent 0.3069634782150388%) no-repeat;
+                            ">
+                                        0% / CAMEL 5B
+                                    </div>
+                                </div>
+                            </div>`;
+                break;
+        }
+    }
+
+    
+    let template = `<div
+                        class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                        <div class="flex justify-between text-lg font-semibold">
+                            <h3>
+                                Aggregate Overview
+                            </h3>
+    
+                            <p>
+                                ⚠️
+                            </p>
+                        </div>
+    
+                        <div>
+                            <div
+                                class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                    91% / GPTZero
+                                </div>
+                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
+                            ">
+                                    86% / ZeroGPT
+                                </div>
+                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                    69% / RoBERTA
+                                </div>
+                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                    69% / SEO.AI
+                                </div>
+                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                    69% / RADAR(s)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 w-full">
+                        <div class="w-full flex flex-col gap-2">
+                            ${subtemplates.RADAR}
+    
+                            <div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        RoBERTA
+                                    </h3>
+    
+                                    <p>
+                                        ⚠️
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                        91% / WORDS 1-120
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
+                            ">
+                                        86% / WORDS 121-321
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                        69% / WORDS 322-500
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        seo.ai
+                                    </h3>
+    
+                                    <p>
+                                        ⚠️
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                        91% / AI %
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                        91% / AVG %
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
+                            ">
+                                        86% / PREDICTION %
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                        69% / ENTROPY %
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                        69% / CORRELATION %
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
+                            ">
+                                        69% / PERPLEXITY %
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-col gap-2">
+                            <div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        GPTZero
+                                    </h3>
+    
+                                    <p>
+                                        ⚠️
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                        91% / DOLLY V1 6B
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        ZeroGPT
+                                    </h3>
+    
+                                    <p>
+                                        ⚠️
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                            ">
+                                        91% / DOLLY V1 6B
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+
+    setTimeout(hideModal, 900);
 }
 
 /* "inspired" by https://ai.jooo.tech/detector.js */
@@ -184,7 +432,12 @@ function VERDICT_WRAPPER(path, text) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ "text": text }),
-    })
+    }).then((response) => {
+        if (response.status !== 200) {
+            throw new Error("Error: " + response.status + " " + response.statusText);
+        }
+        return response.json();
+    });
 }
 
 function ZEROGPT_VERDICT(query_text) {
@@ -195,7 +448,7 @@ function GPTZERO_VERDICT(query_text) {
     return VERDICT_WRAPPER("gptzero", query_text)
 }
 
-function gltr_VERDICT(query_text) {
+function GLTR_VERDICT(query_text) {
     return VERDICT_WRAPPER("gltr_interp", query_text)
 }
 
@@ -207,7 +460,20 @@ function SEOAI_VERDICT(query_text) {
         headers: {
             "Content-Type": "application/json",
         },
-    })
+    }).then((response) => {
+        if (response.status !== 200) {
+            throw new Error("Error: " + response.status + " " + response.statusText);
+        }
+        return response.json();
+    }).then((data) => {
+        return {
+            "prediction": data.subScores[0],
+            "entropy": data.subScores[1],
+            "correlation": data.subScores[2],
+            "perplexity": data.subScores[3],
+            "mean": data.score,
+        }
+    });
 }
 
 function ROBERTA_VERDICT(query_array) {
@@ -215,7 +481,17 @@ function ROBERTA_VERDICT(query_array) {
         method: "POST",
         body: JSON.stringify(query_array),
         headers: { "Authorization": "Bearer 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" }
-    })
+    }).then((response) => {
+        if (response.status !== 200) {
+            throw new Error("Error: " + response.status + " " + response.statusText);
+        }
+        return response.json();
+    }).then((data) => {
+        return {
+            query_array,
+            data
+        }
+    });
 }
 
 async function RADAR_AGGREGATE(query_text) {
@@ -228,8 +504,16 @@ async function RADAR_AGGREGATE(query_text) {
 
     return {
         json: async () => {
+            const models = ["DOLLY V2 3B", "CAMEL 5B", "DOLLY V1 6B", "VICUNA 7B"];
             const jsonResults = await Promise.all(results.map(result => result.json()));
-            return jsonResults;
+            const probabilities = {};
+
+            jsonResults.forEach((result, index) => {
+                const model = models[index];
+                probabilities[model] = result.results[0].p
+            });
+            
+            return probabilities 
         }
     };
 }
