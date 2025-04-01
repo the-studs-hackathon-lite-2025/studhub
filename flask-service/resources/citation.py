@@ -32,8 +32,6 @@ class CiteWebsite(Resource):
         if query is None:
             return {"error": "No URL Provided"}, 400
         
-        # validate valid URL
-
         try:
             result = urlparse(query)
             if all([result.scheme, result.netloc]):

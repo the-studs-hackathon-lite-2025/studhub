@@ -69,7 +69,7 @@ function countTextStats(text) {
     const charCount = text.length;
     const wordCount = text.match(/\w+/g)?.length || 0;
     const sentenceCount = text.match(/[.!?]+(?=\s|$)/g)?.length || 0;
-    
+
     return {
         characters: charCount,
         words: wordCount,
@@ -91,6 +91,35 @@ const outputContainer = document.getElementById('output-container');
 
 const aggregateOverview = document.getElementById('aggregate-overview');
 
+function smartSplitTextIntoChunks(text, maxChunkSize) {
+    const sentences = text.split(/[.!?]/);
+
+    const chunks = [];
+    let currentChunk = '';
+
+    for (const sentence of sentences) {
+        if (currentChunk.split(' ').length + sentence.split(' ').length <= maxChunkSize) {
+            currentChunk += sentence + '.';
+        } else {
+            chunks.push(currentChunk);
+            currentChunk = sentence + '.';
+        }
+    }
+
+    if (currentChunk.length > 0) {
+        chunks.push(currentChunk);
+    }
+
+    return chunks;
+}
+
+function getLevel(ai) {
+    if (ai < 0.3) return "✔️";
+    if (ai < 0.6) return "❓";
+    if (ai < 0.8) return "⚠️❗";
+    return "❌";
+}
+
 input.addEventListener('input', () => {
     const stats = countTextStats(input.value);
     charCount.textContent = stats.characters
@@ -102,10 +131,16 @@ submit.addEventListener('click', () => {
     getDetectionResults(input.value);
 });
 
+function getHighlight(prob) {
+    if (prob > 0.5) return "--ai-highlight";
+    if (prob > 0.3) return "--mix-highlight";
+    return "--human-highlight";
+}
+
 async function getDetectionResults(text) {
     if (text.length === 0) {
         hideModal();
-        
+
         notify("Error", "Please write something", 3000, ["bg-red-500", "text-white", "shadow-inset"]);
 
         input.animate([
@@ -129,7 +164,7 @@ async function getDetectionResults(text) {
 
     modal.classList.toggle("rounded-full", true);
     canClose = false;
-    
+
     modal.innerHTML = `
     <div class="flex gap-5 items-center">
         <div class="relative">
@@ -147,13 +182,14 @@ async function getDetectionResults(text) {
     </div>`;
 
     const detectionProgressBar = document.getElementById('detection-progress');
+    const queryArray = smartSplitTextIntoChunks(text, 200);
 
     const verdicts = {
         "ZERO_GPT": ZEROGPT_VERDICT(text),
         "GPT_ZERO": GPTZERO_VERDICT(text),
         "GLTR": GLTR_VERDICT(text),
         "SEO_AI": SEOAI_VERDICT(text),
-        "ROBERTA": ROBERTA_VERDICT([text]),
+        "ROBERTA": ROBERTA_VERDICT(queryArray),
         "RADAR": RADAR_AGGREGATE(text)
     };
 
@@ -164,9 +200,8 @@ async function getDetectionResults(text) {
     let resolved = 0;
 
     for (const [key, value] of Object.entries(verdicts)) {
-        verdicts[key] = value.then(async (response) => {
+        verdicts[key] = value.then((response) => {
             verdicts[key] = response;
-
             notify("Success", `${key} done`, 3000, ["bg-green-500", "text-white", "shadow-inset"]);
             detectionProgressBar.style.width = `${(resolved++ + 1) / Object.keys(verdicts).length * 100}%`;
         });
@@ -190,66 +225,194 @@ async function getDetectionResults(text) {
     for (const [key, value] of Object.entries(verdicts)) {
         switch (key) {
             case "ZERO_GPT":
-                verdicts[key] = value;
-                break;
-            case "GPT_ZERO":
-                verdicts[key] = value;
-                break;
-            case "GLTR":
-                verdicts[key] = value;
-                break;
-            case "SEO_AI":
-                verdicts[key] = value;
-                break;
-            case "ROBERTA":
-                verdicts[key] = value.data[0][0];
-                break;
-            case "RADAR":
-                verdicts[key] = await value.json();
-
-                subtemplates.RADAR = `<div
+                subtemplates.ZERO_GPT = `<div
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
                                 <div class="flex justify-between text-lg font-semibold">
                                     <h3>
-                                        RADAR models
+                                        ZeroGPT
                                     </h3>
     
                                     <p>
-                                        ⚠️
+                                        ${getLevel(value.fake_score)}
                                     </p>
                                 </div>
     
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
+                                background: linear-gradient(to right, var(--ai-highlight) ${value.fake_score}%, transparent ${value.fake_score}%) no-repeat;
                             ">
-                                        91% / DOLLY V1 6B
+                                        ${value.fake_score}% / Fake Score
                                     </div>
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
+                                background: linear-gradient(to right, var(--human-highlight) ${value.human_score}%, transparent ${value.human_score}%) no-repeat;
                             ">
-                                        86% / DOLLY V2 3B
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                        69% / VICUNA 7B
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--human-highlight) 0.3069634782150388%, transparent 0.3069634782150388%) no-repeat;
-                            ">
-                                        0% / CAMEL 5B
+                                        ${value.human_score}% / Human Score
                                     </div>
                                 </div>
                             </div>`;
                 break;
+            case "GPT_ZERO":
+                const highlighted_sentences = value.data.filter(item => item.highlight_sentence_for_ai).length;
+                const highlighted_percentage = highlighted_sentences / value.data.length * 100;
+
+                subtemplates.GPT_ZERO = `<div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        GPTZero
+                                    </h3>
+    
+                                    <p>
+                                        ${getLevel(value.completely_generated_prob)}
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(${getHighlight(value.average_generated_prob)}) ${value.average_generated_prob * 100}%, transparent ${value.average_generated_prob * 100}%) no-repeat;
+                            ">
+                                        ${Math.round(value.average_generated_prob * 100)}% / Average Generated
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(${getHighlight(value.average_generated_prob)}) ${value.completely_generated_prob * 100}%, transparent ${value.completely_generated_prob * 100}%) no-repeat;
+                            ">
+                                        ${Math.round(value.completely_generated_prob * 100)}% / Completely Generated
+                                    </div>
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(${getHighlight(highlighted_percentage / 100)}) ${highlighted_percentage}%, transparent ${highlighted_percentage}%) no-repeat;
+                            ">
+                                        ${highlighted_percentage}% (${highlighted_sentences}/${value.sentences}) / Suspicous Sentences
+                                    </div>
+                                </div>
+                            </div>`;
+                break;
+            case "GLTR":
+                break;
+            case "SEO_AI":
+                subtemplates.SEO_AI = ` <div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        seo.ai
+                                    </h3>
+    
+                                    <p>
+                                        ${getLevel(value.mean)}
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                background: linear-gradient(to right, var(${getHighlight(value.mean)}) ${value.mean * 100}%, transparent ${value.mean * 100}%) no-repeat;
+                            ">
+                                        ${Math.round(value.mean * 100)} / AI %
+                                    </div>
+                                </div>
+                            </div>`;
+                break;
+            case "ROBERTA":
+                console.log(value)
+
+                subtemplates.ROBERTA = `<div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        RoBERTA
+                                    </h3>
+    
+                                    <p>
+                                        ${
+                                            getLevel(value.data.reduce((acc, item) => acc + item[0].score, 0) / value.data.length)
+                                        }
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    ${
+                                        (() => {
+                                            let wordCount = 0;
+
+                                            return value.query_array.map((item, index) => {
+                                                const stats = countTextStats(item);
+                                                const oldWordCount = wordCount;
+                                                const words = stats.words;
+                                                
+                                                wordCount += words;
+
+                                                const fake = value.data[index][0].score;
+                                                const real = value.data[index][1].score;
+
+                                                return `
+                                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                                        background: linear-gradient(to right, var(${getHighlight(fake)}) ${fake * 100}%, transparent ${fake * 100}%) no-repeat;
+                                                        ">
+                                                        ${Math.round(fake * 100)}% / WORDS ${oldWordCount + 1}-${wordCount}
+                                                    </div>
+                                                `;
+                                            }).join('')
+                                        })()
+                                    }
+                                </div>
+                            </div > `;
+                break;
+            case "RADAR":
+                const probs = Object.entries(value);
+                let median = 0;
+
+                probs.sort((a, b) => b[1] - a[1]);
+
+                if (probs.length % 2 === 0) {
+                    median = (probs[probs.length / 2 - 1][1] + probs[probs.length / 2][1]) / 2;
+                } else {
+                    median = probs[Math.floor(probs.length / 2)][1];
+                }
+
+                subtemplates.RADAR = `<div
+        class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        RADAR models
+                                    </h3>
+    
+                                    <p>
+                                        ${getLevel(median)}
+                                    </p>
+                                </div>
+    
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
+                                    ${
+                    // hide for now
+                    `
+                                        <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                            background: linear-gradient(to right, var(--ai-highlight) ${median * 100}%, transparent ${median * 100}%) no-repeat;
+                                        ">
+                                            ${Math.round(median * 100)}% / Median
+                                        </div>
+                                        `, ""
+                    }
+
+                                    ${probs.map(prob => `
+                                            <div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                                background: linear-gradient(to right, var(${getHighlight(prob[1])}) ${prob[1] * 100}%, transparent ${prob[1] * 100}%) no-repeat;
+                                            ">
+                                                ${Math.round(prob[1] * 100)}% / ${prob[0]}
+                                            </div>
+                                        `).join('')
+                    }
+                                </div>
+                            </div > `;
+                break;
         }
     }
 
-    
+
     let template = `<div
-                        class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+        class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
                         <div class="flex justify-between text-lg font-semibold">
                             <h3>
                                 Aggregate Overview
@@ -290,135 +453,23 @@ async function getDetectionResults(text) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex gap-4 w-full">
-                        <div class="w-full flex flex-col gap-2">
-                            ${subtemplates.RADAR}
-    
-                            <div
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
-                                <div class="flex justify-between text-lg font-semibold">
-                                    <h3>
-                                        RoBERTA
-                                    </h3>
-    
-                                    <p>
-                                        ⚠️
-                                    </p>
-                                </div>
-    
-                                <div
-                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
-                            ">
-                                        91% / WORDS 1-120
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
-                            ">
-                                        86% / WORDS 121-321
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                        69% / WORDS 322-500
-                                    </div>
-                                </div>
-                            </div>
-    
-                            <div
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
-                                <div class="flex justify-between text-lg font-semibold">
-                                    <h3>
-                                        seo.ai
-                                    </h3>
-    
-                                    <p>
-                                        ⚠️
-                                    </p>
-                                </div>
-    
-                                <div
-                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
-                            ">
-                                        91% / AI %
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
-                            ">
-                                        91% / AVG %
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
-                            ">
-                                        86% / PREDICTION %
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                        69% / ENTROPY %
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                        69% / CORRELATION %
-                                    </div>
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                        69% / PERPLEXITY %
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-full flex flex-col gap-2">
-                            <div
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
-                                <div class="flex justify-between text-lg font-semibold">
-                                    <h3>
-                                        GPTZero
-                                    </h3>
-    
-                                    <p>
-                                        ⚠️
-                                    </p>
-                                </div>
-    
-                                <div
-                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
-                            ">
-                                        91% / DOLLY V1 6B
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
-                                <div class="flex justify-between text-lg font-semibold">
-                                    <h3>
-                                        ZeroGPT
-                                    </h3>
-    
-                                    <p>
-                                        ⚠️
-                                    </p>
-                                </div>
-    
-                                <div
-                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
-                                    <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
-                            ">
-                                        91% / DOLLY V1 6B
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
+                    </div >
+            <div class="flex gap-4 w-full">
+                <div class="w-full flex flex-col gap-2">
+                    ${subtemplates.RADAR}
+
+                    ${subtemplates.ROBERTA}
+
+                    ${subtemplates.SEO_AI}
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    ${subtemplates.GPT_ZERO}
+
+                    ${subtemplates.ZERO_GPT}
+                </div>
+            </div>`;
+
+    aggregateOverview.innerHTML = template;
 
     setTimeout(hideModal, 900);
 }
@@ -502,20 +553,16 @@ async function RADAR_AGGREGATE(query_text) {
         VICUNA_7B_VERDICT(query_text)
     ]);
 
-    return {
-        json: async () => {
-            const models = ["DOLLY V2 3B", "CAMEL 5B", "DOLLY V1 6B", "VICUNA 7B"];
-            const jsonResults = await Promise.all(results.map(result => result.json()));
-            const probabilities = {};
+    const models = ["DOLLY V2 3B", "CAMEL 5B", "DOLLY V1 6B", "VICUNA 7B"];
+    const jsonResults = await Promise.all(results.map(result => result.json()));
+    const probabilities = {};
 
-            jsonResults.forEach((result, index) => {
-                const model = models[index];
-                probabilities[model] = result.results[0].p
-            });
-            
-            return probabilities 
-        }
-    };
+    jsonResults.forEach((result, index) => {
+        const model = models[index];
+        probabilities[model] = result.results[0].p
+    });
+
+    return probabilities
 }
 
 function RADAR_WRAPPER(query_text, index) {
