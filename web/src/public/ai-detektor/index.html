@@ -89,7 +89,8 @@
             </div>
         </div>
 
-        <div id="input-container" class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px]">
+        <div id="input-container"
+            class="flex xl:divide-x divide-[#FFFFFF30] px-5 my-auto gap-5 w-full max-w-[800px] h-full max-h-[600px]">
             <div class="w-full flex flex-col gap-5">
                 <div>
                     <div class="flex">
@@ -128,9 +129,16 @@
         </div>
 
         <div id="output-container" class="px-5 my-auto gap-5 w-full max-w-[1200px] h-full max-h-[600px] hidden">
-            <h2 class="text-4xl font-semibold bg-background w-fit p-3 bg-opacity-75 backdrop-blur-lg">
-                Teksten er <span id="ai-detektor-output" class="font-bold text-primary">kansje</span> lagd av AI
-            </h2>
+            <div class="flex justify-between">
+                <h2 class="text-4xl font-semibold bg-background w-fit p-3 bg-opacity-75 backdrop-blur-lg">
+                    Teksten er <span id="ai-detector-verdict" class="font-bold text-primary">kansje</span> lagd av AI
+                </h2>
+
+                <a href="#" id="back-to-input"
+                    class="start bg-[#19191990] hover:brightness-90 active:brightness-75 backdrop-blur-sm w-fit h-fit rounded-md text-white font-semibold py-1.5 px-6 mt-1 border border-border">
+                    Tilbake
+                </a>
+            </div>
 
             <div class="flex gap-4 mt-10 pb-5">
                 <div id="aggregate-overview" class="flex w-full gap-4 flex-col sticky self-start top-4">
@@ -140,12 +148,12 @@
                             <h3>
                                 Aggregate Overview
                             </h3>
-    
+
                             <p>
                                 ⚠️
                             </p>
                         </div>
-    
+
                         <div>
                             <div
                                 class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
@@ -185,12 +193,12 @@
                                     <h3>
                                         RADAR models
                                     </h3>
-    
+
                                     <p>
                                         ⚠️
                                     </p>
                                 </div>
-    
+
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
@@ -214,22 +222,22 @@
                                         0% / CAMEL 5B
                                     </div>
                                 </div>
-    
-    
+
+
                             </div>
-    
+
                             <div
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
                                 <div class="flex justify-between text-lg font-semibold">
                                     <h3>
                                         RoBERTA
                                     </h3>
-    
+
                                     <p>
                                         ⚠️
                                     </p>
                                 </div>
-    
+
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
@@ -249,19 +257,19 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
                                 <div class="flex justify-between text-lg font-semibold">
                                     <h3>
                                         seo.ai
                                     </h3>
-    
+
                                     <p>
                                         ⚠️
                                     </p>
                                 </div>
-    
+
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
@@ -304,12 +312,12 @@
                                     <h3>
                                         GPTZero
                                     </h3>
-    
+
                                     <p>
                                         ⚠️
                                     </p>
                                 </div>
-    
+
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
@@ -325,12 +333,12 @@
                                     <h3>
                                         ZeroGPT
                                     </h3>
-    
+
                                     <p>
                                         ⚠️
                                     </p>
                                 </div>
-    
+
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
@@ -345,11 +353,11 @@
                 </div>
 
                 <div class="w-full">
-                    <div
+                    <div id="text-overview"
                         class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
                         <div class="flex justify-between text-lg font-semibold">
                             <h3>
-                                Aggregate Overview
+                                Text Overview
                             </h3>
 
                             <p>
@@ -367,52 +375,9 @@
                             <h6 style="width: 100%; text-align: center;">AVERAGE - 87.5%</h6>
                         </div>
 
-                        <h6 class="text-xs mt-4"><span style="background-color: var(--human-highlight);">MONEY,
-                                Miss.</span><span style="background-color: var(--human-highlight);">ᅳ Along the edge of
-                                Money Road, across from the railroad tracks, an old grocery store rots.</span><span
-                                style="background-color: var(--human-highlight);"><span
-                                    style="background-color: var(--ai-highlight);">In August 1955, a 14-year-old black
-                                    boy visiting from Chicago walked in to buy candy.</span></span><span
-                                style="background-color: var(--human-highlight);"><span
-                                    style="background-color: var(--ai-highlight);">After being accused of whistling at
-                                    the white woman behind the counter, he was later kidnapped, tortured, lynched and
-                                    dumped in the Tallahatchie River.</span></span><span
-                                style="background-color: var(--human-highlight);"><span
-                                    style="background-color: var(--ai-highlight);">The murder of Emmett Till is
-                                    remembered as one of the most hideous hate crimes of the 20th century, a brutal
-                                    episode in American history that helped kindle the civil rights
-                                    movement.</span></span><span style="background-color: var(--human-highlight);">And
-                                the place where it all began, Bryant's Grocery &amp; Meat Market, is still
-                                standing.</span><span
-                                style="background-color: var(--human-highlight);">Barely.</span><span
-                                style="background-color: var(--human-highlight);">Today, the store is crumbling,
-                                roofless and covered in vines.</span><span
-                                style="background-color: var(--human-highlight);">On several occasions,
-                                preservationists, politicians and business leaders ᅳ even the State of Mississippi ᅳ
-                                have tried to save its remaining four walls.</span><span
-                                style="background-color: var(--human-highlight);">But no consensus has been
-                                reached.</span><span style="background-color: var(--human-highlight);">Some residents in
-                                the area have looked on the store as a stain on the community that should be razed and
-                                forgotten.</span><span style="background-color: var(--human-highlight);">Others have
-                                said it should be restored as a tribute to Emmett and a reminder of the hate that took
-                                his life.</span><span style="background-color: var(--human-highlight);">As the debate
-                                has played out over the decades, the store has continued to deteriorate and collapse,
-                                even amid frequent cultural and racial reckonings across the nation on the fate of
-                                Confederate monuments.</span><span style="background-color: var(--human-highlight);">At
-                                stake in Money and other communities across the country is the question of how Americans
-                                choose to acknowledge the country's past.</span><span
-                                style="background-color: var(--human-highlight);">“It's part of this bigger story, part
-                                of a history that we can learn from,” said the Rev.</span><span
-                                style="background-color: var(--human-highlight);">Wheeler Parker, 79, a pastor in
-                                suburban Chicago and a cousin of Emmett's who went with him to Bryant's Grocery that
-                                day.</span><span style="background-color: var(--human-highlight);">“The store should be
-                                one of the places we share Emmett's story.”</span></h6>
+                        <p class="text-xs mt-4">
 
-                            <script>
-                                const h6 = document.querySelectorAll('h6')[5];
-
-                                h6.innerHTML = h6.innerHTML + h6.innerHTML + h6.innerHTML + h6.innerHTML
-                            </script>
+                        </p>
                     </div>
                 </div>
             </div>

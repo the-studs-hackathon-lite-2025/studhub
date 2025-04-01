@@ -89,7 +89,25 @@ const sentenceCount = document.getElementById('sentence-count');
 const inputContainer = document.getElementById('input-container');
 const outputContainer = document.getElementById('output-container');
 
+const textOverview = document.getElementById('text-overview');
 const aggregateOverview = document.getElementById('aggregate-overview');
+const aiDetectorVerdict = document.getElementById('ai-detector-verdict');
+
+const backToInput = document.getElementById('back-to-input');
+
+backToInput.onclick = () => {
+    inputContainer.classList.remove('hidden');
+    outputContainer.classList.add('hidden');
+
+    inputContainer.animate([
+        { opacity: 0, transform: 'scale(1.1)' },
+        { opacity: 0.75, transform: 'scale(0.975)' },
+        { opacity: 1, transform: 'scale(1)' }
+    ], {
+        duration: 200,
+        iterations: 1
+    });
+}
 
 function smartSplitTextIntoChunks(text, maxChunkSize) {
     const sentences = text.split(/[.!?]/);
@@ -202,8 +220,13 @@ async function getDetectionResults(text) {
     for (const [key, value] of Object.entries(verdicts)) {
         verdicts[key] = value.then((response) => {
             verdicts[key] = response;
-            notify("Success", `${key} done`, 3000, ["bg-green-500", "text-white", "shadow-inset"]);
+            // notify("Success", `${key} done`, 3000, ["bg-green-500", "text-white", "shadow-inset"]);
             detectionProgressBar.style.width = `${(resolved++ + 1) / Object.keys(verdicts).length * 100}%`;
+        }).catch((error) => {
+            console.error(`Error processing ${key}:`, error);
+            notify("Error", `Failed to process ${key}`, 3000, ["bg-red-500", "text-white", "shadow-inset"]);
+            
+            delete verdicts[key];
         });
     }
 
@@ -212,6 +235,15 @@ async function getDetectionResults(text) {
     console.log(verdicts);
     inputContainer.classList.add('hidden');
     outputContainer.classList.remove('hidden');
+
+    outputContainer.animate([
+        { transform: 'scale(0.9)', opacity: 0 },
+        { transform: 'scale(1.01)' },
+        { transform: 'scale(1)' }
+    ], {
+        duration: 300,
+        iterations: 1
+    });
 
     let subtemplates = {
         ZERO_GPT: null,
@@ -222,9 +254,28 @@ async function getDetectionResults(text) {
         RADAR: null
     }
 
-    for (const [key, value] of Object.entries(verdicts)) {
+    const scores = {}
+
+    let highlightedText = text.replace(/  +/g, ' ');
+    const objEntries = Object.entries(verdicts);
+
+    console.log({ objEntries })
+
+    // set ROBERTA to first if present
+
+    if (objEntries.filter(([key, value]) => key === "ROBERTA").length > 0) {
+        const robertaIndex = objEntries.findIndex(([key, value]) => key === "ROBERTA");
+        const roberta = objEntries[robertaIndex];
+
+        objEntries.splice(robertaIndex, 1);
+        objEntries.unshift(roberta);
+    }
+
+    for (const [key, value] of objEntries) {
         switch (key) {
             case "ZERO_GPT":
+                scores.ZERO_GPT = value.fake_score / 100;
+
                 subtemplates.ZERO_GPT = `<div
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
                                 <div class="flex justify-between text-lg font-semibold">
@@ -251,10 +302,16 @@ async function getDetectionResults(text) {
                                     </div>
                                 </div>
                             </div>`;
+
+                for (const item of value.sus_sentences) {
+                    highlightedText = highlightedText.replace(item, `<span style="background: var(--ai-highlight);">${item}</span>`);
+                }
                 break;
             case "GPT_ZERO":
                 const highlighted_sentences = value.data.filter(item => item.highlight_sentence_for_ai).length;
                 const highlighted_percentage = highlighted_sentences / value.data.length * 100;
+
+                scores.GPT_ZERO = value.average_generated_prob;
 
                 subtemplates.GPT_ZERO = `<div
                                 class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
@@ -273,29 +330,65 @@ async function getDetectionResults(text) {
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
                                 background: linear-gradient(to right, var(${getHighlight(value.average_generated_prob)}) ${value.average_generated_prob * 100}%, transparent ${value.average_generated_prob * 100}%) no-repeat;
                             ">
-                                        ${Math.round(value.average_generated_prob * 100)}% / Average Generated
+                                        ${Math.round(value.average_generated_prob * 100)}% (${highlighted_sentences}/${value.sentences}) / Suspicous Sentences
                                     </div>
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
                                 background: linear-gradient(to right, var(${getHighlight(value.average_generated_prob)}) ${value.completely_generated_prob * 100}%, transparent ${value.completely_generated_prob * 100}%) no-repeat;
                             ">
                                         ${Math.round(value.completely_generated_prob * 100)}% / Completely Generated
                                     </div>
+                                </div>
+                            </div>`;
+
+                for (const item of value.data) {
+                    console.log({ "target": item.sentence, highlightedText })
+
+                    const hasSpace = highlightedText.includes(" " + item.sentence);
+                    const prefix = hasSpace ? " " : "";
+
+                    if (item.highlight_sentence_for_ai) {
+                        highlightedText = highlightedText.replace(prefix + item.sentence, `<span style="background: var(--ai-highlight);">${prefix + item.sentence}</span>`);
+                    } else {
+                        highlightedText = highlightedText.replace(prefix + item.sentence, `<span style="background: var(--human-highlight);">${prefix + item.sentence}</span>`);
+                    }
+                }
+                break;
+            case "GLTR":
+                let adjustedGrade = (((value.average_score) * (value.overall_suspicion) * (value.suspicous_scores - 0.7) / (value.average_rank)) - 0.05) * 10 * 100;
+                adjustedGrade = Math.min(100, Math.max(0, adjustedGrade));
+
+                scores.GLTR = adjustedGrade / 100;
+
+                subtemplates.GLTR = `<div
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full opacity-25 scale-95 duration-300 hover:opacity-100 hover:scale-100">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <h3>
+                                        GLTR
+                                    </h3>
+
+                                    <p>
+                                        ${getLevel(adjustedGrade / 100)}
+                                    </p>
+                                </div>
+
+                                <div
+                                    class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(${getHighlight(highlighted_percentage / 100)}) ${highlighted_percentage}%, transparent ${highlighted_percentage}%) no-repeat;
+                                background: linear-gradient(to right, var(${getHighlight(adjustedGrade / 100)}) ${adjustedGrade}%, transparent ${adjustedGrade}%) no-repeat;
                             ">
-                                        ${highlighted_percentage}% (${highlighted_sentences}/${value.sentences}) / Suspicous Sentences
+                                        ${Math.round(adjustedGrade)}% / Fake
                                     </div>
                                 </div>
                             </div>`;
                 break;
-            case "GLTR":
-                break;
             case "SEO_AI":
+                scores.SEO_AI = value.mean;
+
                 subtemplates.SEO_AI = ` <div
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full opacity-25 scale-95 duration-300 hover:opacity-100 hover:scale-100">
                                 <div class="flex justify-between text-lg font-semibold">
                                     <h3>
-                                        seo.ai
+                                        seo.ai (old)
                                     </h3>
     
                                     <p>
@@ -314,50 +407,54 @@ async function getDetectionResults(text) {
                             </div>`;
                 break;
             case "ROBERTA":
+                scores.ROBERTA = value.data.reduce((acc, item) => acc + item[1].score, 0) / value.data.length;
                 console.log(value)
 
                 subtemplates.ROBERTA = `<div
-                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full">
+                                class="bg-[#00000050] border border-border border-opacity-50 rounded-md p-4 backdrop-blur-sm font-sometype-mono w-full opacity-25 scale-95 duration-300 hover:opacity-100 hover:scale-100">
                                 <div class="flex justify-between text-lg font-semibold">
                                     <h3>
-                                        RoBERTA
+                                        RoBERTA (old)
                                     </h3>
     
                                     <p>
-                                        ${
-                                            getLevel(value.data.reduce((acc, item) => acc + item[0].score, 0) / value.data.length)
-                                        }
+                                        ${getLevel(value.data.reduce((acc, item) => acc + item[1].score, 0) / value.data.length)
+                    }
                                     </p>
                                 </div>
     
                                 <div
                                     class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
-                                    ${
-                                        (() => {
-                                            let wordCount = 0;
+                                    ${(() => {
+                        let wordCount = 0;
 
-                                            return value.query_array.map((item, index) => {
-                                                const stats = countTextStats(item);
-                                                const oldWordCount = wordCount;
-                                                const words = stats.words;
-                                                
-                                                wordCount += words;
+                        return value.query_array.map((item, index) => {
+                            const stats = countTextStats(item);
+                            const oldWordCount = wordCount;
+                            const words = stats.words;
 
-                                                const fake = value.data[index][0].score;
-                                                const real = value.data[index][1].score;
+                            wordCount += words;
 
-                                                return `
+                            const real = value.data[index][0].score;
+                            const fake = value.data[index][1].score;
+                            console.log(value.data[index])
+                            return `
                                                     <div class="w-full text-xss font-bold px-1.5 py-1" style="
                                                         background: linear-gradient(to right, var(${getHighlight(fake)}) ${fake * 100}%, transparent ${fake * 100}%) no-repeat;
                                                         ">
                                                         ${Math.round(fake * 100)}% / WORDS ${oldWordCount + 1}-${wordCount}
                                                     </div>
                                                 `;
-                                            }).join('')
-                                        })()
-                                    }
+                        }).join('')
+                    })()
+                    }
                                 </div>
                             </div > `;
+
+                for (const item of value.query_array) {
+                    //console.log({ "target": item.trimStart(), highlightedText })
+                    //highlightedText = highlightedText.replace(item.trimStart(), `<span style="background: var(--ai-highlight);">${item.trimStart()}</span>`);
+                }
                 break;
             case "RADAR":
                 const probs = Object.entries(value);
@@ -370,6 +467,8 @@ async function getDetectionResults(text) {
                 } else {
                     median = probs[Math.floor(probs.length / 2)][1];
                 }
+
+                scores.RADAR = median;
 
                 subtemplates.RADAR = `<div
         class="bg-[#00000050] border border-border border-opacity-50 rounded-lg p-4 backdrop-blur-sm w-full">
@@ -419,38 +518,23 @@ async function getDetectionResults(text) {
                             </h3>
     
                             <p>
-                                ⚠️
+                                ${getLevel(Object.values(scores).reduce((acc, item) => acc + item, 0) / Object.values(scores).length)}
                             </p>
                         </div>
     
                         <div>
                             <div
                                 class="bg-[#00000050] backdrop-blur-sm rounded-md overflow-hidden mt-2.5 border border-border border-opacity-50 divide-y divide-border divide-opacity-50 font-sometype-mono">
-                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 91.39910340309143%, transparent 91.39910340309143%) no-repeat;
-                            ">
-                                    91% / GPTZero
-                                </div>
-                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--ai-highlight) 85.625159740448%, transparent 85.625159740448%) no-repeat;
-                            ">
-                                    86% / ZeroGPT
-                                </div>
-                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                    69% / RoBERTA
-                                </div>
-                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                    69% / SEO.AI
-                                </div>
-                                <div class="w-full text-xss font-bold px-1.5 py-1" style="
-                                background: linear-gradient(to right, var(--mix-highlight) 68.8165545463562%, transparent 68.8165545463562%) no-repeat;
-                            ">
-                                    69% / RADAR(s)
-                                </div>
+                                
+                                ${
+                                    Object.entries(scores).sort((a, b) => b[1] - a[1]).map(([key, value]) => {
+                                        return `<div class="w-full text-xss font-bold px-1.5 py-1" style="
+                                                    background: linear-gradient(to right, var(${getHighlight(value)}) ${value * 100}%, transparent ${value * 100}%) no-repeat;
+                                                ">
+                                                    ${Math.round(value * 100)}% / ${key}
+                                                </div>`
+                                    }).join('')
+                                }
                             </div>
                         </div>
                     </div >
@@ -466,10 +550,56 @@ async function getDetectionResults(text) {
                     ${subtemplates.GPT_ZERO}
 
                     ${subtemplates.ZERO_GPT}
+
+                    ${subtemplates.GLTR}
                 </div>
             </div>`;
 
+    const textTemplate = `
+    <div class="flex justify-between text-lg font-semibold">
+        <h3>
+            Text Overview
+        </h3>
+
+        <p>
+            ${getLevel(Object.values(scores).reduce((acc, item) => acc + item, 0) / Object.values(scores).length)}
+        </p>
+    </div>
+
+    <h6 class="mt-2">MAJORITY HUMAN WRITER LIKELYHOOD %:</h6>
+
+    <div
+        class="w-full text-xs flex border border-border rounded-md bg-[#00000090] px-4 py-2 overflow-hidden mt-0.5 font-bold">
+        <h6 style="width: 100%; text-align: center;">ZEROGPT - ${Math.round(scores.ZERO_GPT)}%</h6>
+        <h6 style="width: 100%; text-align: center;">GPTZERO - ${Math.round(scores.GPT_ZERO)}%</h6>
+        <h6 style="width: 100%; text-align: center;">AVERAGE - ${Math.round((scores.ZERO_GPT + scores.GPT_ZERO) / 2)}%</h6>
+    </div>
+
+    <p class="text-xs mt-4">
+        ${
+        // show text that was analyzed
+        // with correct formatting (new lines, spaces, etc.)
+
+        highlightedText.split('\n').map((line, index) => {
+            return `${line}<br />`;
+        }).join('')
+        }
+    </p>
+    `;
+
+    aiDetectorVerdict.innerText = (() => {
+        const average = Object.values(scores).reduce((acc, item) => acc + item, 0) / Object.values(scores).length;
+
+        // sikkert, kansje, ikke
+
+        if (average < 0.3) return "ikke";
+        if (average < 0.6) return "kanskje";
+        if (average < 0.8) return "sikkert";
+        return "100%";
+    })();
+
     aggregateOverview.innerHTML = template;
+    textOverview.innerHTML = textTemplate;
 
     setTimeout(hideModal, 900);
 }
